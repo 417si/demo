@@ -246,10 +246,9 @@
         var ticking = false;
         var update = function () {
           sec.classList.toggle("is-scrolled", window.scrollY > 60); // 「Scroll」の合図を消す
-          if (wide.matches) { bg.style.objectPosition = ""; bg.style.transform = ""; ticking = false; return; } // PCは自然にスクロール
+          if (wide.matches) { bg.style.transform = ""; ticking = false; return; } // PCは自然にスクロール
           var vh = window.innerHeight, t = Math.max(0, Math.min(1, window.scrollY / vh));
           var e = t * t * (3 - 2 * t);
-          bg.style.objectPosition = (p0[0] + (p1[0] - p0[0]) * e).toFixed(2) + "% " + (p0[1] + (p1[1] - p0[1]) * e).toFixed(2) + "%";
           bg.style.transform = "translate3d(0," + (window.scrollY * 0.45).toFixed(1) + "px,0) scale(" + (1 + t * 0.04).toFixed(4) + ")";
           ticking = false;
         };
