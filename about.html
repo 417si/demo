@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About MKP | La Magica＊Prism Ceremony</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="武蔵野美術大学公認サークル Magic Kingdom Project（MKP）について。各班の紹介、これまでの公演、メンバー募集。">
+<meta name="theme-color" content="#17211F">
+<meta property="og:type" content="website">
+<meta property="og:title" content="About MKP | La Magica＊Prism Ceremony">
+<meta property="og:image" content="assets/img/ogp.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/img/icon-96.png" sizes="96x96" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Shippori+Mincho+B1:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="site" data-page="about">
+
+  <a class="skip" href="#about-main">本文へ移動</a>
+
+  <header class="gh" data-header>
+    <a class="gh__mark" href="index.html" aria-label="トップページへ">
+      <img class="gh__crest" src="assets/svg/emblem-silver.svg" alt="" width="26" height="32">
+      <span class="gh__title" data-site-title>La Magica＊Prism Ceremony</span>
+    </a>
+    <nav class="gh__nav" aria-label="メインメニュー">
+      <a href="index.html">Home</a>
+      <a href="gallery.html">Gallery</a>
+    </nav>
+    <div class="gh__sns" data-sns="icons"></div>
+    <button class="gh__menu" type="button" aria-expanded="false" aria-controls="drawer" data-menu>
+      <span></span><span></span><span class="sr">メニュー</span>
+    </button>
+  </header>
+
+  <div class="drawer" id="drawer" hidden data-drawer>
+    <nav aria-label="メニュー">
+      <a href="index.html"><span>Home</span><small>トップ</small></a>
+      <a href="gallery.html"><span>Gallery</span><small>写真ギャラリー</small></a>
+    </nav>
+    <div class="drawer__sns" data-sns="icons"></div>
+  </div>
+
+  <main id="about-main">
+    <section class="page-hero">
+      <canvas class="fx" data-fx="night" aria-hidden="true"></canvas>
+      <img class="page-hero__crest" src="assets/svg/emblem-silver.svg" alt="" width="90" height="111">
+      <h1>We are MKP</h1>
+      <p>Magic Kingdom Project とは</p>
+    </section>
+
+    <section class="about-sec about-sec--first parchment">
+      <div class="wrap">
+        <div class="about-lead" data-about-lead></div>
+      </div>
+    </section>
+
+    <section class="about-sec parchment" aria-labelledby="teams-h" style="padding-top:0">
+      <div class="wrap">
+        <header class="sec-head">
+          <img class="sec-head__spark" src="assets/svg/sparkle.svg" alt="" width="40" height="40">
+          <h2 class="sec-head__en" id="teams-h">Teams</h2>
+          <p class="sec-head__ja">各班の紹介</p>
+          <img class="sec-head__rule" src="assets/svg/rule.svg" alt="" width="360" height="36">
+        </header>
+        <div class="teams" data-teams></div>
+      </div>
+    </section>
+
+    <section class="about-sec parchment" aria-labelledby="arc-h" style="padding-top:0">
+      <div class="wrap">
+        <header class="sec-head">
+          <img class="sec-head__spark" src="assets/svg/sparkle.svg" alt="" width="40" height="40">
+          <h2 class="sec-head__en" id="arc-h">Works</h2>
+          <p class="sec-head__ja">これまでの公演</p>
+          <img class="sec-head__rule" src="assets/svg/rule.svg" alt="" width="360" height="36">
+        </header>
+        <ol class="archive" data-archive></ol>
+      </div>
+    </section>
+
+    <section class="follow parchment" aria-labelledby="follow-h">
+      <div class="wrap">
+        <h2 class="follow__h" id="follow-h">最新情報は SNS で</h2>
+        <p class="follow__lead">活動の様子や公演のお知らせを発信しています。</p>
+        <div class="follow__list" data-sns="cards"></div>
+        <a class="follow__about" href="index.html">公演特設ページへ戻る</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="gf" data-footer></footer>
+  <dialog class="lightbox" data-lightbox aria-label="画像の拡大表示">
+    <button class="lightbox__close" type="button" data-lightbox-close aria-label="閉じる">×</button>
+    <img src="" alt="">
+  </dialog>
+</div>
+
+<script src="data/content.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
