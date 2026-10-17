@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" width="140" height="140" ><defs>
+<linearGradient id="gPewter" x1="0" y1="0" x2="1" y2="1">
+ <stop offset="0" stop-color="#E6ECEA"/><stop offset=".45" stop-color="#AEB8B6"/>
+ <stop offset=".7" stop-color="#8E9997"/><stop offset="1" stop-color="#E6ECEA"/>
+</linearGradient>
+<linearGradient id="gPrism" x1="0" y1="0" x2="1" y2="1">
+ <stop offset="0" stop-color="#BDF2DC"/><stop offset=".35" stop-color="#C8B4F2"/>
+ <stop offset=".7" stop-color="#F6C4DD"/><stop offset="1" stop-color="#FFF4C7"/>
+</linearGradient>
+<linearGradient id="gLeafA" x1="0" y1="0" x2="1" y2="0">
+ <stop offset="0" stop-color="#3F6B38"/><stop offset="1" stop-color="#5E8F45"/>
+</linearGradient>
+<linearGradient id="gLeafB" x1="0" y1="0" x2="1" y2="0">
+ <stop offset="0" stop-color="#5E8F45"/><stop offset="1" stop-color="#8DBF5A"/>
+</linearGradient>
+<radialGradient id="gGem" cx=".35" cy=".3" r=".8">
+ <stop offset="0" stop-color="#D6ECFF"/><stop offset=".45" stop-color="#6FB0F5"/><stop offset="1" stop-color="#1F5FB8"/>
+</radialGradient>
+<radialGradient id="gGemV" cx=".35" cy=".3" r=".8">
+ <stop offset="0" stop-color="#F6EEFF"/><stop offset=".5" stop-color="#C8B4F2"/><stop offset="1" stop-color="#8A55C8"/>
+</radialGradient>
+<radialGradient id="gGlow">
+ <stop offset="0" stop-color="#FFFBE6"/><stop offset=".3" stop-color="#FFF4C7" stop-opacity=".75"/><stop offset="1" stop-color="#FFF4C7" stop-opacity="0"/>
+</radialGradient>
+</defs><path d="M8,132 L8,46 C8,22 22,8 46,8 L132,8" fill="none" stroke="#4E5957" stroke-width="7.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M8,132 L8,46 C8,22 22,8 46,8 L132,8" fill="none" stroke="url(#gPewter)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20,120 L20,52 C20,34 34,20 52,20 L120,20" fill="none" stroke="#4E5957" stroke-width="5.0" stroke-linecap="round" stroke-linejoin="round"/><path d="M20,120 L20,52 C20,34 34,20 52,20 L120,20" fill="none" stroke="url(#gPewter)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M46,8 C46,30 30,46 8,46" fill="none" stroke="#4E5957" stroke-width="5.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M46,8 C46,30 30,46 8,46" fill="none" stroke="url(#gPewter)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M70,8 C70,28 84,40 98,34 C108,30 106,18 96,20" fill="none" stroke="#4E5957" stroke-width="5.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M70,8 C70,28 84,40 98,34 C108,30 106,18 96,20" fill="none" stroke="url(#gPewter)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M8,70 C28,70 40,84 34,98 C30,108 18,106 20,96" fill="none" stroke="#4E5957" stroke-width="5.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M8,70 C28,70 40,84 34,98 C30,108 18,106 20,96" fill="none" stroke="url(#gPewter)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M30,30 C48,36 58,50 54,64 C51,74 40,72 42,64" fill="none" stroke="#4E5957" stroke-width="5.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M30,30 C48,36 58,50 54,64 C51,74 40,72 42,64" fill="none" stroke="url(#gPewter)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M34,22 C42,30 46,38 42,46 C38,52 30,52 26,46 C22,38 26,30 34,22Z" transform="translate(-6,-4) rotate(-45 34 38)" fill="url(#gGem)" stroke="#4E5957" stroke-width="1.6"/></svg>

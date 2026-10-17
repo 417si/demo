@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="360" height="360" ><defs>
+<linearGradient id="gPewter" x1="0" y1="0" x2="1" y2="1">
+ <stop offset="0" stop-color="#E6ECEA"/><stop offset=".45" stop-color="#AEB8B6"/>
+ <stop offset=".7" stop-color="#8E9997"/><stop offset="1" stop-color="#E6ECEA"/>
+</linearGradient>
+<linearGradient id="gPrism" x1="0" y1="0" x2="1" y2="1">
+ <stop offset="0" stop-color="#BDF2DC"/><stop offset=".35" stop-color="#C8B4F2"/>
+ <stop offset=".7" stop-color="#F6C4DD"/><stop offset="1" stop-color="#FFF4C7"/>
+</linearGradient>
+<linearGradient id="gLeafA" x1="0" y1="0" x2="1" y2="0">
+ <stop offset="0" stop-color="#3F6B38"/><stop offset="1" stop-color="#5E8F45"/>
+</linearGradient>
+<linearGradient id="gLeafB" x1="0" y1="0" x2="1" y2="0">
+ <stop offset="0" stop-color="#5E8F45"/><stop offset="1" stop-color="#8DBF5A"/>
+</linearGradient>
+<radialGradient id="gGem" cx=".35" cy=".3" r=".8">
+ <stop offset="0" stop-color="#D6ECFF"/><stop offset=".45" stop-color="#6FB0F5"/><stop offset="1" stop-color="#1F5FB8"/>
+</radialGradient>
+<radialGradient id="gGemV" cx=".35" cy=".3" r=".8">
+ <stop offset="0" stop-color="#F6EEFF"/><stop offset=".5" stop-color="#C8B4F2"/><stop offset="1" stop-color="#8A55C8"/>
+</radialGradient>
+<radialGradient id="gGlow">
+ <stop offset="0" stop-color="#FFFBE6"/><stop offset=".3" stop-color="#FFF4C7" stop-opacity=".75"/><stop offset="1" stop-color="#FFF4C7" stop-opacity="0"/>
+</radialGradient>
+
+<filter id="paper" x="0" y="0" width="100%" height="100%">
+ <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" seed="7" stitchTiles="stitch" result="m"/>
+ <feColorMatrix in="m" type="matrix" values="0 0 0 0 .45  0 0 0 0 .36  0 0 0 0 .22  0 0 0 .55 -.18" result="mott"/>
+ <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3" stitchTiles="stitch" result="n"/>
+ <feColorMatrix in="n" type="matrix" values="0 0 0 0 .4  0 0 0 0 .32  0 0 0 0 .2  0 0 0 .22 -.06" result="grain"/>
+ <feMerge><feMergeNode in="mott"/><feMergeNode in="grain"/></feMerge>
+</filter></defs><rect width="360" height="360" fill="#E9DFC9"/><rect width="360" height="360" filter="url(#paper)"/></svg>

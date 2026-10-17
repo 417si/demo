@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 36" width="360" height="36" ><defs>
+<linearGradient id="gPewter" x1="0" y1="0" x2="1" y2="1">
+ <stop offset="0" stop-color="#E6ECEA"/><stop offset=".45" stop-color="#AEB8B6"/>
+ <stop offset=".7" stop-color="#8E9997"/><stop offset="1" stop-color="#E6ECEA"/>
+</linearGradient>
+<linearGradient id="gPrism" x1="0" y1="0" x2="1" y2="1">
+ <stop offset="0" stop-color="#BDF2DC"/><stop offset=".35" stop-color="#C8B4F2"/>
+ <stop offset=".7" stop-color="#F6C4DD"/><stop offset="1" stop-color="#FFF4C7"/>
+</linearGradient>
+<linearGradient id="gLeafA" x1="0" y1="0" x2="1" y2="0">
+ <stop offset="0" stop-color="#3F6B38"/><stop offset="1" stop-color="#5E8F45"/>
+</linearGradient>
+<linearGradient id="gLeafB" x1="0" y1="0" x2="1" y2="0">
+ <stop offset="0" stop-color="#5E8F45"/><stop offset="1" stop-color="#8DBF5A"/>
+</linearGradient>
+<radialGradient id="gGem" cx=".35" cy=".3" r=".8">
+ <stop offset="0" stop-color="#D6ECFF"/><stop offset=".45" stop-color="#6FB0F5"/><stop offset="1" stop-color="#1F5FB8"/>
+</radialGradient>
+<radialGradient id="gGemV" cx=".35" cy=".3" r=".8">
+ <stop offset="0" stop-color="#F6EEFF"/><stop offset=".5" stop-color="#C8B4F2"/><stop offset="1" stop-color="#8A55C8"/>
+</radialGradient>
+<radialGradient id="gGlow">
+ <stop offset="0" stop-color="#FFFBE6"/><stop offset=".3" stop-color="#FFF4C7" stop-opacity=".75"/><stop offset="1" stop-color="#FFF4C7" stop-opacity="0"/>
+</radialGradient>
+</defs><g transform="translate(180,0) scale(1,1) translate(-180,0)"><path d="M30,18 C50,18 60,8 74,10 C86,12 84,24 74,24" fill="none" stroke="#4E5957" stroke-width="4.800000000000001" stroke-linecap="round" stroke-linejoin="round"/><path d="M30,18 C50,18 60,8 74,10 C86,12 84,24 74,24" fill="none" stroke="url(#gPewter)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M84,18 L166,18" stroke="#AEB8B6" stroke-width="1.6"/><circle cx="174" cy="18" r="2.2" fill="#AEB8B6"/></g><g transform="translate(180,0) scale(-1,1) translate(-180,0)"><path d="M30,18 C50,18 60,8 74,10 C86,12 84,24 74,24" fill="none" stroke="#4E5957" stroke-width="4.800000000000001" stroke-linecap="round" stroke-linejoin="round"/><path d="M30,18 C50,18 60,8 74,10 C86,12 84,24 74,24" fill="none" stroke="url(#gPewter)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M84,18 L166,18" stroke="#AEB8B6" stroke-width="1.6"/><circle cx="174" cy="18" r="2.2" fill="#AEB8B6"/></g><path d="M180,4 L192,18 L180,32 L168,18Z" fill="url(#gGemV)" stroke="#4E5957" stroke-width="1.6"/><path d="M180,8 L186,18 L180,18Z" fill="#fff" opacity=".7"/></svg>
