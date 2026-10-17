@@ -233,29 +233,14 @@
       if (hc.pcFrom != null) sec.style.setProperty("--from", (hc.pcFrom / 100).toFixed(3));
       if (hc.pcTo != null) sec.style.setProperty("--to", (hc.pcTo / 100).toFixed(3));
       bg.style.objectPosition = hc.focus || "50% 50%";
-      // スクロールに合わせてポスターの上（姫）→下（タイトル）へゆっくり流し、少し遅れて動かす（パララックス）
-      if (bg && !reduceMotion) {
-        var parse = function (v, d) { var m = String(v || "").match(/([\d.]+)%\s+([\d.]+)%/); return m ? [+m[1], +m[2]] : d; };
-        var wide = window.matchMedia("(min-aspect-ratio: 1/1)"); // 横長の画面（PC）
-        var p0, p1;
-        var pick = function () {
-          p0 = parse(hc.focus, [50, 50]);
-          p1 = parse(hc.focusEnd || hc.focus, p0);
-        };
-        pick();
-        var ticking = false;
-        var update = function () {
-          sec.classList.toggle("is-scrolled", window.scrollY > 60); // 「Scroll」の合図を消す
-          if (wide.matches) { bg.style.transform = ""; ticking = false; return; } // PCは自然にスクロール
-          var vh = window.innerHeight, t = Math.max(0, Math.min(1, window.scrollY / vh));
-          var e = t * t * (3 - 2 * t);
-          bg.style.transform = "translate3d(0," + (window.scrollY * 0.45).toFixed(1) + "px,0) scale(" + (1 + t * 0.04).toFixed(4) + ")";
-          ticking = false;
-        };
-        window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-        window.addEventListener("resize", function () { pick(); update(); });
-        update();
-      }
+      // ポスターはJSで動かさず、ブラウザのスクロールに任せる（スクロール位置のズレ・カクつき防止）
+      var ticking = false;
+      var update = function () {
+        sec.classList.toggle("is-scrolled", window.scrollY > 60); // 「Scroll」の合図を消す
+        ticking = false;
+      };
+      window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+      update();
     }
     var tg = $("[data-tagline]");
     if (tg) tg.textContent = hc.tagline || "";
