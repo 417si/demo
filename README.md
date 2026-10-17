@@ -86,7 +86,7 @@ tools/optimize_images.py  ポスター差し替え時に軽い版とOGP画像を
   - スマホ（縦長の画面）：横幅に合わせてポスター全体を表示し、`hero.focus` → `hero.focusEnd` へ少しだけ流れます。
 
 ### ポスターを差し替える
-`assets/img/poster.jpg` を上書き → `python3 tools/optimize_images.py` を実行（表示用の poster-2400.webp と OGP画像をまとめて作り直します）。
+`assets/img/poster.jpg` を上書き → `python3 tools/optimize_images.py` を実行（表示用の poster-1800.webp / poster-1200.webp と OGP画像をまとめて作り直します）。
 
 ### ファビコン
 X のアイコン（MKPロゴ）から作っています：`favicon-32.png` / `icon-96.png` / `apple-touch-icon.png`。

@@ -243,7 +243,7 @@
   var DEMO_SEED = [
     { id: "s1", src: "assets/videos/chara1.jpg", w: 1280, h: 720, tags: ["イーリス", "妖精たち"], credit: "見本の写真", x: "" },
     { id: "s2", src: "assets/videos/chara2.jpg", w: 1280, h: 720, tags: ["ポポ", "メルト"], credit: "", x: "@mkp_mau" },
-    { id: "s3", src: "assets/img/poster-2400.webp", w: 2400, h: 3394, tags: [], credit: "MKP広報班", x: "" },
+    { id: "s3", src: "assets/img/poster-1800.webp", w: 1799, h: 2545, tags: [], credit: "MKP広報班", x: "" },
     { id: "s4", src: "assets/videos/chara3.jpg", w: 1280, h: 720, tags: ["ツムグ", "ルディ"], credit: "", x: "" },
     { id: "s5", src: "assets/videos/chara4.jpg", w: 1280, h: 720, tags: ["ピノ", "ウィム"], credit: "見本の写真", x: "" },
     { id: "s6", src: "assets/videos/theme.jpg", w: 1280, h: 720, tags: ["イーリス"], credit: "", x: "" },

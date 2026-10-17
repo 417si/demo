@@ -5,7 +5,7 @@
   python3 tools/optimize_images.py
 
 入力:  assets/img/poster.jpg（原寸 2894×4093。差し替えるときはこの名前で上書き）
-出力:  assets/img/poster-2400.webp … ページに表示する版（content.js の hero.poster）
+出力:  assets/img/poster-1800.webp / poster-1200.webp … ページに表示する版（content.js の hero.poster）
        assets/img/ogp.jpg          … Xなどにリンクを貼ったときのサムネイル（1200×630）
 """
 import os
@@ -17,7 +17,7 @@ IMG = os.path.join(ROOT, "assets", "img")
 im = Image.open(os.path.join(IMG, "poster.jpg")).convert("RGB")
 print("poster:", im.size)
 
-for w_, q in ((2400, 84),):
+for w_, q in ((1800, 80), (1200, 80)):
     web = im.copy()
     web.thumbnail((w_, w_ * im.height // im.width), Image.LANCZOS)
     web.save(os.path.join(IMG, f"poster-{w_}.webp"), "WEBP", quality=q, method=6)

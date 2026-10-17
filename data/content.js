@@ -45,7 +45,8 @@ window.SITE = {
     //   スマホ（縦長の画面）：横幅に合わせて表示。focus → focusEnd へ少しだけ流れる（横% 縦%）
     focus: "50% 24%",
     focusEnd: "50% 58%",
-    poster: "assets/img/poster-2400.webp",   // 表示用（tools/optimize_images.py で作れます）
+    poster: "assets/img/poster-1800.webp",   // 表示用（tools/optimize_images.py で作れます）
+    posterSmall: "assets/img/poster-1200.webp", // スマホ・小さい画面用の軽い版
     posterFull: "assets/img/poster.jpg",     // 「ポスター全体を見る」で開く原寸
     posterAlt: "La Magica＊Prism Ceremony 公演ポスター",
     tagline: "Magic Kingdom Project 2026 芸術祭公演",

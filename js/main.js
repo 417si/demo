@@ -227,7 +227,9 @@
     var sec = $("[data-hero]");
     var bg = $("[data-poster-bg]");
     if (sec && bg) {
-      bg.src = hc.poster;
+      // 画面が小さい（スマホなど）ときは軽い版を読み込んで、スクロール時の描き直しを軽くする
+      bg.decoding = "async";
+      bg.src = (hc.posterSmall && Math.min(screen.width, window.innerWidth) <= 820) ? hc.posterSmall : hc.poster;
       if (hc.pcFrom != null) sec.style.setProperty("--from", (hc.pcFrom / 100).toFixed(3));
       if (hc.pcTo != null) sec.style.setProperty("--to", (hc.pcTo / 100).toFixed(3));
       bg.style.objectPosition = hc.focus || "50% 50%";

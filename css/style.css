@@ -239,7 +239,7 @@ h1, h2, h3 { text-wrap: balance; word-break: auto-phrase; }
 /* 最初の1画面はポスターだけ。下端を夜の色に溶かし、その下に公演日時、さらに下で白い光へ */
 .hero--full { padding-top: 0; }
 .hero--full .hero__bg { display: block; position: absolute; top: 0; left: 0; right: 0; height: 100vh; height: 100svh; z-index: 0; overflow: hidden; }
-.hero--full .hero__bg img { width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 45%; will-change: transform, object-position; }
+.hero--full .hero__bg img { width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 45%; will-change: transform; }
 .js .hero--full .hero__bg img { animation: bgIn 2.6s cubic-bezier(.2,.7,.2,1) both; animation-play-state: paused; }
 .js.is-ready .hero--full .hero__bg img { animation-play-state: running; }
 @keyframes bgIn { from { opacity: 0; scale: 1.08; filter: brightness(1.6) blur(6px); } to { opacity: 1; scale: 1; filter: none; } }
