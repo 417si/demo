@@ -233,12 +233,22 @@
       if (hc.pcFrom != null) sec.style.setProperty("--from", (hc.pcFrom / 100).toFixed(3));
       if (hc.pcTo != null) sec.style.setProperty("--to", (hc.pcTo / 100).toFixed(3));
       bg.style.objectPosition = hc.focus || "50% 50%";
-      // ポスターはJSで動かさず、ブラウザのスクロールに任せる（スクロール位置のズレ・カクつき防止）
+      // PC（横長の画面）だけ、スクロールに合わせてポスターを少し遅れて動かす（パララックス）。
+      // スマホはブラウザのスクロールに任せる（JSの位置計算が遅れてカクつくため）
+      var wide = window.matchMedia("(min-aspect-ratio: 1/1)");
       var ticking = false;
       var update = function () {
-        sec.classList.toggle("is-scrolled", window.scrollY > 60); // 「Scroll」の合図を消す
+        var y = window.scrollY;
+        sec.classList.toggle("is-scrolled", y > 60); // 「Scroll」の合図を消す
+        if (wide.matches && !reduceMotion) {
+          var t = Math.max(0, Math.min(1, y / window.innerHeight));
+          bg.style.transform = "translate3d(0," + (y * 0.3).toFixed(1) + "px,0) scale(" + (1 + t * 0.04).toFixed(4) + ")";
+        } else if (bg.style.transform) {
+          bg.style.transform = "";
+        }
         ticking = false;
       };
+      window.addEventListener("resize", update);
       window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
       update();
     }
