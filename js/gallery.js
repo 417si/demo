@@ -212,7 +212,7 @@
     });
     resetCols();
     if (!all.length) {
-      statusEl.innerHTML = '<span class="gal__empty"><img src="assets/svg/emblem-ink.svg" alt="">まだ写真はありません。<br>公演のあと、順次公開していきます。</span>';
+      statusEl.innerHTML = '<span class="gal__empty"><img src="assets/img/emblem-ink.png" alt="">まだ写真はありません。<br>公演のあと、順次公開していきます。</span>';
       moreEl.hidden = true;
       return;
     }

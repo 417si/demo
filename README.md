@@ -92,10 +92,11 @@ tools/optimize_images.py  ポスター差し替え時に軽い版とOGP画像を
 X のアイコン（MKPロゴ）から作っています：`favicon-32.png` / `icon-96.png` / `apple-touch-icon.png`。
 変えるときは同じ名前・同じサイズで上書きしてください。
 
-### 姫の紋章（emblem.svg）
-`assets/svg/emblem.svg` が元データです。ヘッダー・フッター・テーマ映像の読み込み中・About の上部に使っています。
-色ちがい（銀 `emblem-silver.svg` / プリズム `emblem-prism.svg` / 濃いグレー `emblem-ink.svg`）は
-`python3 tools/make_assets.py` で emblem.svg から自動で作られるので、紋章を差し替えたらこれを実行するだけで全部に反映されます。
+### 姫の紋章（emblem-*.png）
+ヘッダー・フッター・テーマ映像の読み込み中・About の上部に使っています。
+サイトからSVGを直接ダウンロードされないよう、公開しているのはPNG（400×492・透過）だけです：
+`assets/img/emblem-silver.png`（銀）/ `emblem-prism.png`（プリズム）/ `emblem-ink.png`（濃いグレー）。
+元のSVG（黒1色のIllustrator書き出し）はリポジトリに置いていません。差し替えるときは同じ名前・同じサイズのPNGで上書きしてください。
 
 ---
 

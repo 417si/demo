@@ -352,7 +352,7 @@ def make_emblem_variants():
 
 
 if __name__ == "__main__":
-    make_emblem_variants()
+    # make_emblem_variants()  # 紋章はPNGで公開しているため停止中（元のemblem.svgはリポジトリに置いていない）
     # make_banner()  # 旗（今は未使用）
     make_corner()
     make_rule()

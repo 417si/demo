@@ -111,7 +111,7 @@
     if (ft) {
       var base = page === "home" ? "" : "index.html";
       ft.innerHTML =
-        '<p class="gf__mark"><img src="assets/svg/emblem-silver.svg" alt="" width="64" height="79"><span>' + esc(SITE.title) + "</span></p>" +
+        '<p class="gf__mark"><img src="assets/img/emblem-silver.png" alt="" width="64" height="79"><span>' + esc(SITE.title) + "</span></p>" +
         '<p class="gf__sub">' + esc(SITE.circle) + " " + esc(SITE.year) + "</p>" +
         '<nav class="gf__nav" aria-label="フッターメニュー">' +
         '<a href="' + base + '#story">Story</a><a href="' + base + '#characters">Characters</a>' +
@@ -288,7 +288,7 @@
     var el = h(
       '<div class="intro" role="dialog" aria-modal="true" aria-label="テーマ映像">' +
       '<video playsinline muted autoplay preload="auto"' + (cfg.poster ? ' poster="' + esc(cfg.poster) + '"' : "") + ' src="' + esc(cfg.video) + '"></video>' +
-      '<div class="intro__wait"><img src="assets/svg/emblem-prism.svg" alt=""></div>' +
+      '<div class="intro__wait"><img src="assets/img/emblem-prism.png" alt=""></div>' +
       '<button class="intro__start" type="button" data-start hidden><span>' + ICON.play + "</span><span>テーマ映像を再生する</span></button>" +
       '<div class="intro__bar">' +
       '<button class="intro__btn intro__btn--icon" type="button" data-sound aria-pressed="false" aria-label="音を出す" title="音を出す">' + ICON.soundOff + "</button>" +
@@ -537,7 +537,7 @@
     if (g.image) {
       html += '<button class="goods__img" type="button" aria-label="グッズの画像を拡大する"><img src="' + esc(g.image) + '" alt="' + esc(g.imageAlt || "グッズ一覧") + '" loading="lazy"></button>';
     } else {
-      html += '<div class="goods__img goods__img--soon" aria-hidden="true"><span><img src="assets/svg/emblem-ink.svg" alt="">Coming soon…</span></div>';
+      html += '<div class="goods__img goods__img--soon" aria-hidden="true"><span><img src="assets/img/emblem-ink.png" alt="">Coming soon…</span></div>';
     }
     if (g.saleInfo) html += '<p class="goods__sale">' + esc(g.saleInfo) + "</p>";
     el.innerHTML = html;
@@ -567,7 +567,7 @@
       teams.innerHTML = (a.teams || []).map(function (t) {
         var tag = t.url ? "a" : "div";
         return "<" + tag + ' class="team"' + (t.url ? ' href="' + esc(t.url) + '" target="_blank" rel="noopener"' : "") + ">" +
-          '<h3><img src="assets/svg/emblem-ink.svg" alt="">' + esc(t.name) + "</h3><p>" + esc(t.desc || "") + "</p>" +
+          '<h3><img src="assets/img/emblem-ink.png" alt="">' + esc(t.name) + "</h3><p>" + esc(t.desc || "") + "</p>" +
           (t.url ? "<span>紹介ポストを見る</span>" : "") + "</" + tag + ">";
       }).join("");
       $$(".team", teams).forEach(function (t, k) { reveal(t, k % 4); });
