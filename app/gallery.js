@@ -96,7 +96,10 @@
     $$("[data-mode]", modeBox).forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-mode") === mode)); });
   }
   function panelIsOpen() { return panelEl.classList.contains("is-open"); }
+  var quietUntil = 0, openedY = 0;
+  function quiet() { quietUntil = Date.now() + 700; } // 一覧の作り直し・自動スクロールによる「スクロール」では、閉じない
   function setPanel(open) {
+    if (open) { openedY = window.scrollY; quiet(); }
     panelEl.classList.toggle("is-open", open);
     if (open) panelEl.removeAttribute("inert"); else panelEl.setAttribute("inert", "");
     toggleEl.setAttribute("aria-expanded", String(open));
@@ -110,14 +113,20 @@
     else if (only) active = [t];
     else { var i = active.indexOf(t); if (i >= 0) active.splice(i, 1); else active.push(t); }
     $$("[data-f]", filterEl).forEach(function (b) { var f = b.getAttribute("data-f"); b.setAttribute("aria-pressed", String(f ? active.indexOf(f) >= 0 : !active.length)); });
+    quiet();
     paintMode(); paintActive();
     page = 1;
     paintGrid();
     scrollToList();
-    if (t && window.innerWidth < 700) setPanel(false);
   }
   filterEl.addEventListener("click", function (e) { var b = e.target.closest("[data-f]"); if (b) setFilter(b.getAttribute("data-f"), false); });
-  modeBox.addEventListener("click", function (e) { var b = e.target.closest("[data-mode]"); if (!b) return; mode = b.getAttribute("data-mode"); paintMode(); page = 1; paintGrid(); });
+  modeBox.addEventListener("click", function (e) { var b = e.target.closest("[data-mode]"); if (!b) return; quiet(); mode = b.getAttribute("data-mode"); paintMode(); page = 1; paintGrid(); });
+  // 絞り込みの一覧は、PCもスマホも、ギャラリーをスクロールしたら自動で閉じる（キャラは何人でも続けて選べる）
+  window.addEventListener("scroll", function () {
+    if (!visible || !panelIsOpen()) return;
+    if (Date.now() < quietUntil) { openedY = window.scrollY; return; }
+    if (Math.abs(window.scrollY - openedY) > 24) setPanel(false);
+  }, { passive: true });
 
   function scrollToList() {
     var hh = parseFloat(getComputedStyle(root).getPropertyValue("--top-h")) || 54;
@@ -184,12 +193,12 @@
   }
   function setStatus() {
     var n = pageCount();
-    statusEl.textContent = (active.length ? active.join("・") + " の写真 " : "全 ") + view.length + " 枚" + (n > 1 ? "（" + page + " / " + n + " ページ）" : "");
+    statusEl.textContent = (active.length ? active.join("・") + (active.length > 1 ? (mode === "all" ? "（全員が写っている）" : "（いずれかが写っている）") : "") + " の写真 " : "全 ") + view.length + " 枚" + (n > 1 ? "（" + page + " / " + n + " ページ）" : "");
   }
   function gotoPage(n) {
     n = Math.max(1, Math.min(pageCount(), n));
     if (n === page) return;
-    page = n;
+    page = n; quiet();
     renderPage(); paintPager(); setStatus(); writeHash(); scrollToList();
   }
   pagerEl.addEventListener("click", function (e) { var b = e.target.closest("[data-pg]"); if (b && !b.disabled) gotoPage(+b.getAttribute("data-pg")); });
@@ -308,7 +317,6 @@
   // メニューの項目をおしたら、メニューを閉じてパネルをひらく
   $$(".drawer [data-open]").forEach(function (b) { b.addEventListener("click", function () { setMenu(false); }); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && menuOpen && !(V.panelOpen && V.panelOpen())) setMenu(false); });
-  $("[data-top]").addEventListener("click", function (e) { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); });
 
   /* ------------------------------------------------------------ フッターの文 */
   $("[data-credit]").textContent = G.xmode ? "X（旧Twitter）の「#" + G.hashtag + "」の投稿から自動で集めています。写真の著作権は各投稿者に帰属します。掲載の削除をご希望の場合は、公式アカウントまでご連絡ください。" : "";

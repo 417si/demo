@@ -46,14 +46,14 @@
 
   <nav class="dock" aria-label="コンテンツ">
     <button class="plate-btn" type="button" data-open="story"><span class="plate-btn__en">Story</span><span class="plate-btn__ja">物語</span></button>
-    <a class="plate-btn" href="about.html"><span class="plate-btn__en">About MKP</span><span class="plate-btn__ja">MKPについて</span></a>
+    <button class="plate-btn" type="button" data-open="about"><span class="plate-btn__en">About MKP</span><span class="plate-btn__ja">MKPについて</span></button>
   </nav>
 </div>
 
 <!-- ============ 本をひらいたあと：ふつうのギャラリーサイト ============ -->
 <div class="site" data-site>
   <header class="gh" data-gh>
-    <a class="gh__mark" href="#gallery" data-top aria-label="ギャラリーの先頭へ">
+    <a class="gh__mark" href="./" data-top aria-label="表紙にもどる">
       <img class="gh__crest" src="assets/img/emblem-ink.png" alt="" width="24" height="30">
       <span class="gh__title foil">La Magica＊Prism Ceremony</span>
     </a>
@@ -76,13 +76,14 @@
           <div class="gal__active" data-active aria-live="polite"></div>
         </div>
         <div class="gal__panel" id="gal-panel" data-panel-filter inert>
-          <div class="gal__panelin"><div class="gal__chips" role="group" aria-label="キャラクターで絞り込む" data-filter></div></div>
+          <div class="gal__panelin">
+          <div class="gal__mode" data-mode-box role="group" aria-label="絞り込みの条件" hidden>
+          <button type="button" data-mode="any">いずれかが写っている</button><button type="button" data-mode="all">全員が写っている</button>
+          </div>
+          <div class="gal__chips" role="group" aria-label="キャラクターで絞り込む" data-filter></div></div>
         </div>
       </div>
       <div class="gal__wrap">
-        <div class="gal__mode" data-mode-box role="group" aria-label="絞り込みの条件" hidden>
-          <button type="button" data-mode="any">いずれかが写っている</button><button type="button" data-mode="all">全員が写っている</button>
-        </div>
         <p class="gal__status" data-status role="status" aria-live="polite"></p>
         <div class="gal__grid" data-grid></div>
         <nav class="gal__pager" data-pager aria-label="ページ" hidden></nav>
@@ -109,11 +110,11 @@
     <hr class="rule">
     <ul class="drawer__list">
       <li><button type="button" data-open="story"><b>Story</b><small>物語</small></button></li>
-      <li><a href="about.html"><b>About MKP</b><small>MKPについて</small></a></li>
+      <li><button type="button" data-open="about"><b>About MKP</b><small>MKPについて</small></button></li>
     </ul>
     <hr class="rule">
     <div class="sns" data-sns></div>
-    <a class="drawer__back" href="./" data-back>‹ 本の表紙にもどる</a>
+    <a class="drawer__back" href="./" data-back>‹ もどる</a>
   </nav>
 </div>
 
@@ -127,6 +128,16 @@
     </div>
   </div>
 </div>
+<div class="panel" data-panel="about" role="dialog" aria-modal="true" aria-labelledby="p-about" hidden>
+  <div class="sheet">
+    <button class="sheet__close" type="button" data-close aria-label="閉じる">×</button>
+    <div class="sheet__scroll">
+      <header class="sheet__head"><h2 class="sheet__en foil" id="p-about">About MKP</h2><p class="sheet__ja">Magic Kingdom Project とは</p><hr class="rule"></header>
+      <div class="about" data-about></div>
+    </div>
+  </div>
+</div>
+
 <!-- 写真の拡大表示 -->
 <div class="lb" data-lb role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
   <div class="lb__top">

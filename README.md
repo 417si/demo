@@ -24,9 +24,9 @@
 
 ```
 index.html            トップ：本の表紙（ポスター）→ タップでひらくと、公演写真ギャラリー（メニューはハンバーガー）
-about.html            About（MKPとは・各班紹介・これまでの公演・SNS）
+about.html            以前のURL → index.html#about（トップのAboutパネル）へ転送するだけ
 gallery.html          以前のギャラリーのURL → index.html#gallery へ転送するだけ
-app/                  ★ 新しいトップ・About の見た目と動き（site.css / landing.* / gallery.* / panels.js / about.*）
+app/                  ★ 新しいトップの見た目と動き（site.css / landing.* / gallery.* / panels.js）
 old/                  旧サイト（index.html / about.html / gallery.html）。画像・css/・js/・data/ はルートのものを共有（<base href="../">）
 edit.html / tagger/   タグ修正ページ・スマホ管理ページ（ルートのまま）
 album/                思い出アルバム風のページ（試作。今は使っていません）

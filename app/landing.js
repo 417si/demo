@@ -138,14 +138,17 @@
     // 拡大表示・パネルの履歴は、それぞれのスクリプトが閉じる。ここでは「表紙 ⇔ ギャラリー」だけを見る
     var inG = root.classList.contains("is-gallery"), want = /^#gallery/.test(location.hash);
     if (want && !inG) { bookEl.classList.remove("is-closed"); G.parseHash(); showGallery(); }
-    else if (!want && inG && !/^#story$/.test(location.hash)) showLanding();
+    else if (!want && inG && !/^#(story|about)$/.test(location.hash)) showLanding();
   });
-  $("[data-back]").addEventListener("click", function (e) {
+  // 左上のタイトル・メニューの「もどる」→ 表紙にもどる
+  function goCover(e) {
     e.preventDefault();
+    if (root.classList.contains("is-landing")) return;
     if (history.state && history.state.v2 === "gallery") { try { history.back(); return; } catch (err) { /* noop */ } }
     try { history.replaceState({}, "", location.pathname + location.search); } catch (err) { /* noop */ }
     showLanding();
-  });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-back], [data-top], .top__mark"), function (a) { a.addEventListener("click", goCover); });
   var rT = 0;
   window.addEventListener("resize", function () {
     clearTimeout(rT);
