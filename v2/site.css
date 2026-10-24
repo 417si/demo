@@ -164,3 +164,4 @@ a { color: inherit; }
 
 @media (max-width: 899px) { :root { --top-h: 50px; } .top__title { font-size: .94rem; } .sns a { width: 32px; } }
 @media (prefers-reduced-motion: reduce) { .sheet { transition: none; clip-path: none; } .panel { transition: none; } }
+html.is-locked, html.is-locked body { overflow: hidden; }

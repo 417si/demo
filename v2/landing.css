@@ -1,0 +1,94 @@
+/* =====================================================================
+   landing.css — 最初の画面（本の表紙）と、表紙をひらく動き
+   ページの大きさ（--pw / --ph）は landing.js が画面に合わせて決めます。
+   ===================================================================== */
+:root { --pw: 420px; --ph: 568px; --turn: 1s; --hint-h: 72px; }
+html.is-landing, html.is-landing body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+html.is-gallery .landing { display: none; }
+html.is-landing .site { display: none; }
+
+.landing { position: fixed; inset: 0; z-index: 1; display: grid; grid-template-rows: var(--top-h) 1fr var(--hint-h) auto; transition: opacity .6s ease, transform .7s cubic-bezier(.5, 0, .3, 1); }
+.landing.is-leaving { opacity: 0; transform: scale(1.18); pointer-events: none; }
+.landing .top { padding-right: max(16px, env(safe-area-inset-right, 0)); }
+
+/* ------------------------------------------------------------ 本 */
+.desk { position: relative; z-index: 2; display: grid; place-items: center; min-height: 0; perspective: 2800px; }
+.book { position: relative; width: calc(var(--pw) * 2); height: var(--ph); transition: transform var(--turn) cubic-bezier(.5, .05, .2, 1); transform-style: preserve-3d; }
+.book.is-closed { transform: translateX(calc(var(--pw) * -.5)); }
+.book.single { width: var(--pw); }
+.book.single.is-closed { transform: none; }
+.book.no-anim { transition: none !important; }
+.slot { position: absolute; top: 0; width: var(--pw); height: var(--ph); }
+.slot--l { left: 0; } .slot--r { left: var(--pw); }
+.book.single .slot--r { left: 0; }
+.book.single .slot--l { display: none; }
+.book::before { content: ""; position: absolute; left: 4%; right: 4%; bottom: -14px; height: 30px; border-radius: 50%; background: rgba(60, 40, 12, .5); filter: blur(16px); z-index: -1; }
+.hit { position: absolute; inset: 0; z-index: 9; border: 0; background: none; cursor: pointer; }
+.book:not(.is-closed) .hit { display: none; }
+
+/* 表紙：公演ポスターを、そのまま表紙に */
+.cover {
+  position: absolute; inset: -3px -5px -3px -2px; border-radius: 3px 10px 10px 3px; overflow: hidden; cursor: pointer; background: #cdb98f;
+  box-shadow: 0 0 0 1px rgba(60, 50, 30, .45), inset 0 0 0 1px rgba(255, 255, 255, .25), 3px 0 0 #e9dcbb, 4px 0 0 #b9a77c, 6px 1px 0 #e4d6b2, 7px 1px 0 #a99869, 0 26px 44px -18px rgba(50, 32, 8, .75);
+}
+.cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+.cover::before { /* とじ目のくぼみ */ content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(90deg, rgba(40, 28, 10, .55), rgba(40, 28, 10, .12) 3.2%, rgba(255, 255, 255, .22) 4.2%, transparent 6%, transparent 94%, rgba(40, 28, 10, .22)); }
+.cover__frame { position: absolute; inset: 2.6% 2.4% 2.6% 6%; z-index: 2; pointer-events: none; border: 1px solid rgba(238, 242, 241, .75); border-radius: 2px; box-shadow: 0 0 0 1px rgba(80, 90, 88, .35), inset 0 0 0 1px rgba(80, 90, 88, .2); }
+@media (hover: hover) { .cover { transition: transform .35s; } .book.is-closed:hover .cover { transform: translateY(-3px); } }
+
+/* ひらいた中身（見返し＋扉のページ） */
+.pg {
+  position: absolute; inset: 0; overflow: hidden; color: var(--ink); border-radius: 2px;
+  background-color: var(--vellum-0);
+  background-image:
+    radial-gradient(110% 80% at 50% 35%, rgba(255, 255, 255, .55), transparent 70%),
+    radial-gradient(70% 60% at 85% 95%, rgba(170, 125, 55, .2), transparent 70%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .42  0 0 0 0 .32  0 0 0 0 .16  0 0 0 .17 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>");
+}
+.pg--l { border-radius: 7px 2px 2px 7px; box-shadow: -1px 0 0 #eadfc2, -2px 0 0 #d9c9a2, -3px 1px 0 #eadfc2, -4px 1px 0 #c9b88c, 0 22px 34px -16px rgba(50, 32, 8, .7); }
+.pg--r { border-radius: 2px 7px 7px 2px; box-shadow: 1px 0 0 #eadfc2, 2px 0 0 #d9c9a2, 3px 1px 0 #eadfc2, 4px 1px 0 #c9b88c, 0 22px 34px -16px rgba(50, 32, 8, .7); }
+.pg::after { content: ""; position: absolute; top: 0; bottom: 0; width: 14%; pointer-events: none; }
+.pg--l::after { right: 0; background: linear-gradient(270deg, rgba(80, 55, 20, .3), rgba(80, 55, 20, .08) 42%, transparent); }
+.pg--r::after { left: 0; background: linear-gradient(90deg, rgba(80, 55, 20, .3), rgba(80, 55, 20, .08) 42%, transparent); }
+.book.single .pg--r::after { width: 7%; }
+.pg > * { position: relative; z-index: 1; }
+.frame { position: absolute !important; inset: 13px; z-index: 0 !important; pointer-events: none; border: 1px solid rgba(124, 136, 134, .75); border-radius: 1px; box-shadow: inset 0 0 0 3px rgba(246, 239, 220, .5), inset 0 0 0 4px rgba(124, 136, 134, .4), 0 1px 0 rgba(255, 255, 255, .7); }
+.pg--l .frame { right: 20px; } .pg--r .frame { left: 20px; }
+.fc { position: absolute !important; width: 52px; height: 52px; z-index: 0 !important; pointer-events: none; background: url("foil-corner.svg") center/contain no-repeat; }
+.fc--tl { top: 8px; left: 8px; } .fc--tr { top: 8px; right: 8px; transform: scaleX(-1); } .fc--bl { bottom: 8px; left: 8px; transform: scaleY(-1); } .fc--br { bottom: 8px; right: 8px; transform: scale(-1, -1); }
+.pg--l .fc--tr, .pg--l .fc--br { right: 15px; } .pg--r .fc--tl, .pg--r .fc--bl { left: 15px; }
+.pg--end { display: grid; place-items: center; background-color: #e9dcba; }
+.endp-crest { width: 46%; height: auto; filter: drop-shadow(0 1px 0 rgba(255,255,255,.8)) drop-shadow(0 -.6px 0 rgba(58,68,66,.45)); }
+.pg__body { position: absolute !important; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 34px 38px 40px 44px; }
+.title__crest { width: calc(var(--pw) * .16); height: auto; filter: drop-shadow(0 1px 0 rgba(255,255,255,.8)) drop-shadow(0 -.6px 0 rgba(58,68,66,.45)); }
+.title__h { margin: 10px 0 0; font-family: var(--f-display); font-weight: 400; font-size: calc(var(--pw) * .14); line-height: 1.05; }
+.title__sub { margin: 6px 0 0; font-size: .74rem; letter-spacing: .3em; text-indent: .3em; color: var(--ink-soft); }
+.title__rule { width: 55%; max-width: 220px; margin: 12px 0 0; }
+.title__p { margin: 10px 0 0; font-family: var(--f-story); font-size: calc(var(--pw) * .034); letter-spacing: .12em; line-height: 2; color: var(--ink-soft); }
+
+/* ひらく動き */
+.leaf { position: absolute; top: 0; height: 100%; transform: translateZ(1px); transform-style: preserve-3d; z-index: 8; will-change: transform; transition: transform var(--turn) cubic-bezier(.45, .05, .25, 1), opacity var(--turn) ease-in; }
+.leaf--fwd { left: 50%; width: 50%; transform-origin: left center; }
+.book.single .leaf { left: 0; width: 100%; transform-origin: left center; }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.face--back { transform: rotateY(180deg); }
+.face::before { content: ""; position: absolute; inset: 0; z-index: 5; pointer-events: none; background: #2a1c06; opacity: 0; animation: shade var(--turn) ease-in-out both; border-radius: inherit; }
+@keyframes shade { 0% { opacity: 0; } 50% { opacity: .24; } 100% { opacity: 0; } }
+.face .pg, .face .cover { position: absolute; }
+
+/* ------------------------------------------------------------ ヒントとボタン */
+.hint { position: relative; z-index: 3; margin: 0; align-self: end; padding: 0 12px 6px; text-align: center; pointer-events: none; transition: opacity .4s; }
+.hint b { display: block; font-family: var(--f-display); font-style: italic; font-weight: 400; font-size: 1.15rem; line-height: 1.3; letter-spacing: .04em; }
+.hint small { display: block; font-size: .68rem; letter-spacing: .08em; color: var(--ink-soft); line-height: 1.5; }
+.hint.is-off { opacity: 0; }
+.dock { position: relative; z-index: 6; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 12px; padding: 4px max(14px, env(safe-area-inset-right, 0)) calc(14px + env(safe-area-inset-bottom, 0)) max(14px, env(safe-area-inset-left, 0)); transition: opacity .4s; }
+.dock .plate-btn { min-width: 128px; }
+.landing.is-opening .dock { opacity: 0; pointer-events: none; }
+
+@media (max-width: 899px) {
+  .dock { gap: 8px; padding-top: 2px; }
+  .dock .plate-btn { min-width: 0; flex: 1 1 calc(50% - 8px); max-width: 190px; min-height: 48px; padding: 6px 10px 7px; }
+}
+@media (max-height: 560px) { :root { --top-h: 44px; --hint-h: 52px; } .hint small { display: none; } .dock .plate-btn { min-height: 42px; } }
+@media (prefers-reduced-motion: reduce) { .book, .leaf, .landing { transition: none !important; } .face::before { animation: none; } }
