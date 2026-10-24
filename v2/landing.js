@@ -42,8 +42,6 @@
   /* ------------------------------------------------------------ 本の中身 */
   function shell(side, extra) {
     var pg = el("div", "pg pg--" + side + (extra ? " " + extra : ""));
-    pg.appendChild(el("i", "frame"));
-    ["tl", "tr", "bl", "br"].forEach(function (c) { pg.appendChild(el("i", "fc fc--" + c)); });
     return pg;
   }
   function endpaper() { var pg = shell("l", "pg--end"); var im = el("img", "endp-crest"); im.src = ASSET + "img/emblem-silver.png"; im.alt = ""; pg.appendChild(im); return pg; }
@@ -51,7 +49,7 @@
     var pg = shell(side, "pg--title"), body = el("div", "pg__body");
     body.innerHTML = '<img class="title__crest" src="' + ASSET + 'img/emblem-silver.png" alt="" width="60" height="74">' +
       '<h2 class="title__h foil">Gallery</h2><p class="title__sub">公演写真ギャラリー</p>' +
-      '<img class="title__rule" src="foil-rule.svg" alt="" width="320" height="24">' +
+      '<hr class="rule">' +
       '<p class="title__p">La Magica＊Prism Ceremony<br>Magic Kingdom Project 2026</p>';
     pg.appendChild(body);
     return pg;
@@ -60,7 +58,7 @@
     var c = el("div", "cover");
     c.setAttribute("role", "button"); c.tabIndex = 0;
     c.setAttribute("aria-label", "本をひらく");
-    c.innerHTML = '<img src="' + ASSET + 'img/poster-1200.webp" alt="La Magica＊Prism Ceremony 公演ポスター" width="1200" height="1697" fetchpriority="high"><i class="cover__frame"></i>';
+    c.innerHTML = '<img src="' + ASSET + 'img/poster-1200.webp" alt="La Magica＊Prism Ceremony 公演ポスター" width="1200" height="1697" fetchpriority="high">';
     return c;
   }
   var cover = null, leaf = null;
