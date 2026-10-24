@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>La Magica＊Prism Ceremony | Magic Kingdom Project 2026</title>
-<meta name="description" content="Magic Kingdom Project 2026 芸術祭公演「La Magica＊Prism Ceremony」。本の表紙をひらくと、公演写真のギャラリーが出てきます。物語・キャラクター・公演情報もこちらから。">
-<meta name="theme-color" content="#dcc9a0">
+<meta name="description" content="Magic Kingdom Project 2026 芸術祭公演「La Magica＊Prism Ceremony」。本の表紙をひらくと、公演写真のギャラリーが出てきます。">
+<meta name="theme-color" content="#b9b19e">
 <!-- 公開前の確認用：検索結果に出ないようにしています。正式に公開するときは、この1行を消してください -->
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:type" content="website">
@@ -46,8 +46,6 @@
 
   <nav class="dock" aria-label="コンテンツ">
     <button class="plate-btn" type="button" data-open="story"><span class="plate-btn__en">Story</span><span class="plate-btn__ja">物語</span></button>
-    <button class="plate-btn" type="button" data-open="characters"><span class="plate-btn__en">Characters</span><span class="plate-btn__ja">キャラクター</span></button>
-    <button class="plate-btn" type="button" data-open="info"><span class="plate-btn__en">Information</span><span class="plate-btn__ja">公演情報</span></button>
     <a class="plate-btn" href="about.html"><span class="plate-btn__en">About MKP</span><span class="plate-btn__ja">MKPについて</span></a>
   </nav>
 </div>
@@ -111,8 +109,6 @@
     <hr class="rule">
     <ul class="drawer__list">
       <li><button type="button" data-open="story"><b>Story</b><small>物語</small></button></li>
-      <li><button type="button" data-open="characters"><b>Characters</b><small>キャラクター</small></button></li>
-      <li><button type="button" data-open="info"><b>Information</b><small>公演情報</small></button></li>
       <li><a href="about.html"><b>About MKP</b><small>MKPについて</small></a></li>
     </ul>
     <hr class="rule">
@@ -131,25 +127,6 @@
     </div>
   </div>
 </div>
-<div class="panel" data-panel="characters" role="dialog" aria-modal="true" aria-labelledby="p-chars" hidden>
-  <div class="sheet">
-    <button class="sheet__close" type="button" data-close aria-label="閉じる">×</button>
-    <div class="sheet__scroll">
-      <header class="sheet__head"><h2 class="sheet__en foil" id="p-chars">Characters</h2><p class="sheet__ja">キャラクター紹介</p><hr class="rule"></header>
-      <div class="chars" data-chars></div>
-    </div>
-  </div>
-</div>
-<div class="panel" data-panel="info" role="dialog" aria-modal="true" aria-labelledby="p-info" hidden>
-  <div class="sheet">
-    <button class="sheet__close" type="button" data-close aria-label="閉じる">×</button>
-    <div class="sheet__scroll">
-      <header class="sheet__head"><h2 class="sheet__en foil" id="p-info">Information</h2><p class="sheet__ja">公演情報</p><hr class="rule"></header>
-      <div class="info" data-info></div>
-    </div>
-  </div>
-</div>
-
 <!-- 写真の拡大表示 -->
 <div class="lb" data-lb role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
   <div class="lb__top">

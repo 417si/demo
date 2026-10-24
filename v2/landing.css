@@ -22,14 +22,14 @@ html.is-landing .site { display: none; }
 .slot--l { left: 0; } .slot--r { left: var(--pw); }
 .book.single .slot--r { left: 0; }
 .book.single .slot--l { display: none; }
-.book::before { content: ""; position: absolute; left: 4%; right: 4%; bottom: -14px; height: 30px; border-radius: 50%; background: rgba(60, 40, 12, .5); filter: blur(16px); z-index: -1; }
+.book::before { content: ""; position: absolute; left: 4%; right: 4%; bottom: -14px; height: 30px; border-radius: 50%; background: rgba(24, 21, 14, .5); filter: blur(16px); z-index: -1; }
 .hit { position: absolute; inset: 0; z-index: 9; border: 0; background: none; cursor: pointer; }
 .book:not(.is-closed) .hit { display: none; }
 
 /* 表紙：公演ポスターを、そのまま表紙に */
 .cover {
-  position: absolute; inset: -3px -5px -3px -2px; border-radius: 3px 10px 10px 3px; overflow: hidden; cursor: pointer; background: #cdb98f;
-  box-shadow: 0 1px 0 rgba(60, 50, 30, .4), 0 26px 44px -18px rgba(50, 32, 8, .7);
+  position: absolute; inset: -3px -5px -3px -2px; border-radius: 3px 10px 10px 3px; overflow: hidden; cursor: pointer; background: #b9ad8a;
+  box-shadow: 0 1px 0 rgba(60, 50, 30, .4), 0 26px 44px -18px rgba(20, 18, 12, .7);
 }
 .cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
 .cover::before { /* とじ目のくぼみ */ content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
@@ -42,17 +42,17 @@ html.is-landing .site { display: none; }
   background-color: var(--vellum-0);
   background-image:
     radial-gradient(110% 80% at 50% 35%, rgba(255, 255, 255, .55), transparent 70%),
-    radial-gradient(70% 60% at 85% 95%, rgba(170, 125, 55, .2), transparent 70%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .42  0 0 0 0 .32  0 0 0 0 .16  0 0 0 .17 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>");
+    radial-gradient(70% 60% at 85% 95%, rgba(120, 105, 70, .16), transparent 70%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .34  0 0 0 0 .3  0 0 0 0 .22  0 0 0 .14 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>");
 }
-.pg--l { border-radius: 7px 2px 2px 7px; box-shadow: 0 22px 34px -16px rgba(50, 32, 8, .65); }
-.pg--r { border-radius: 2px 7px 7px 2px; box-shadow: 0 22px 34px -16px rgba(50, 32, 8, .65); }
+.pg--l { border-radius: 7px 2px 2px 7px; box-shadow: 0 22px 34px -16px rgba(20, 18, 12, .65); }
+.pg--r { border-radius: 2px 7px 7px 2px; box-shadow: 0 22px 34px -16px rgba(20, 18, 12, .65); }
 .pg::after { content: ""; position: absolute; top: 0; bottom: 0; width: 14%; pointer-events: none; }
 .pg--l::after { right: 0; background: linear-gradient(270deg, rgba(80, 55, 20, .3), rgba(80, 55, 20, .08) 42%, transparent); }
 .pg--r::after { left: 0; background: linear-gradient(90deg, rgba(80, 55, 20, .3), rgba(80, 55, 20, .08) 42%, transparent); }
 .book.single .pg--r::after { width: 7%; }
 .pg > * { position: relative; z-index: 1; }
-.pg--end { display: grid; place-items: center; background-color: #e9dcba; }
+.pg--end { display: grid; place-items: center; background-color: #ddd5bd; }
 .endp-crest { width: 46%; height: auto;  }
 .pg__body { position: absolute !important; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 34px 38px 40px 44px; }
 .title__crest { width: calc(var(--pw) * .16); height: auto;  }

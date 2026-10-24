@@ -138,7 +138,7 @@
     // 拡大表示・パネルの履歴は、それぞれのスクリプトが閉じる。ここでは「表紙 ⇔ ギャラリー」だけを見る
     var inG = root.classList.contains("is-gallery"), want = /^#gallery/.test(location.hash);
     if (want && !inG) { bookEl.classList.remove("is-closed"); G.parseHash(); showGallery(); }
-    else if (!want && inG && !/^#(story|characters|info)$/.test(location.hash)) showLanding();
+    else if (!want && inG && !/^#story$/.test(location.hash)) showLanding();
   });
   $("[data-back]").addEventListener("click", function (e) {
     e.preventDefault();

@@ -1,6 +1,6 @@
 /* about.css — About ページ（v2/about.html）。1枚の大きな羊皮紙のページとして見せる */
 body.about { overflow-y: auto; }
-.top--bar { position: sticky; top: 0; background: rgba(220, 202, 162, .72); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.top--bar { position: sticky; top: 0; background: var(--bar); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
 .wrap { position: relative; z-index: 2; width: min(860px, 100%); margin: 0 auto; padding: 8px 14px 60px; }
 .leaf-page {
   position: relative; padding: clamp(44px, 8vw, 78px) clamp(22px, 7vw, 76px) 44px; border-radius: 8px; overflow: hidden;
@@ -9,8 +9,8 @@ body.about { overflow-y: auto; }
     radial-gradient(110% 60% at 50% 0%, rgba(255, 255, 255, .55), transparent 70%),
     radial-gradient(70% 40% at 90% 100%, rgba(170, 125, 55, .22), transparent 70%),
     radial-gradient(50% 30% at 6% 40%, rgba(170, 125, 55, .12), transparent 70%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .42  0 0 0 0 .32  0 0 0 0 .16  0 0 0 .17 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>");
-  box-shadow: 0 30px 50px -22px rgba(50, 32, 8, .6);
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .34  0 0 0 0 .3  0 0 0 0 .22  0 0 0 .14 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>");
+  box-shadow: 0 30px 50px -22px rgba(20, 18, 12, .6);
 }
 .leaf-page > * { position: relative; z-index: 1; }
 
