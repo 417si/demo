@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prism Album | La Magica＊Prism Ceremony</title>
+<meta name="description" content="Magic Kingdom Project 2026 芸術祭公演「La Magica＊Prism Ceremony」の思い出アルバム。公演の写真を、ページをめくりながら振り返れます。">
+<meta name="theme-color" content="#101a17">
+<!-- 公開前の確認用：検索結果に出ないようにしています。みんなに公開するときは、この1行を消してください -->
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Prism Album | La Magica＊Prism Ceremony">
+<meta property="og:description" content="公演の思い出アルバム">
+<meta property="og:image" content="../assets/img/ogp.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/img/icon-96.png" sizes="96x96" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://lh3.googleusercontent.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=IM+Fell+English:ital@0;1&family=Klee+One:wght@400;600&family=Shippori+Mincho+B1:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="album.css">
+</head>
+<body>
+<div class="stage" data-stage>
+  <div class="bg" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <header class="top">
+    <a class="top__back" href="../index.html"><span aria-hidden="true">‹</span> La Magica＊Prism Ceremony</a>
+    <nav class="top__nav" aria-label="メニュー">
+      <a href="../gallery.html">一覧で見る</a>
+      <button class="ribbon" type="button" data-toc aria-label="もくじを開く"><span>もくじ</span></button>
+    </nav>
+  </header>
+
+  <main class="desk" id="main">
+    <div class="book is-closed" data-book>
+      <div class="slot slot--l" data-slot-l></div>
+      <div class="slot slot--r" data-slot-r></div>
+      <button class="hit hit--prev" type="button" data-hit-prev aria-label="前のページへ" tabindex="-1"></button>
+      <button class="hit hit--next" type="button" data-hit-next aria-label="次のページへ" tabindex="-1"></button>
+    </div>
+    <p class="hint" data-hint>表紙をタップして、アルバムをひらく</p>
+  </main>
+
+  <footer class="ctrl" data-ctrl>
+    <button class="ctrl__btn" type="button" data-prev aria-label="前のページ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="ctrl__mid">
+      <input class="ctrl__range" type="range" min="-1" max="0" step="1" value="-1" data-range aria-label="ページを選ぶ">
+      <p class="ctrl__label" data-label role="status" aria-live="polite">表紙</p>
+    </div>
+    <button class="ctrl__btn" type="button" data-next aria-label="次のページ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  </footer>
+
+  <!-- 写真の拡大表示 -->
+  <div class="lb" data-lb role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
+    <div class="lb__top">
+      <span class="lb__count" data-lb-count></span>
+      <button class="lb__close" type="button" data-lb-close aria-label="閉じる">×</button>
+    </div>
+    <div class="lb__stage" data-lb-stage>
+      <figure class="lb__print" data-lb-print>
+        <img data-lb-img alt="">
+      </figure>
+      <div class="lb__spin" aria-hidden="true"></div>
+    </div>
+    <button class="lb__nav lb__nav--prev" type="button" data-lb-prev aria-label="前の写真"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="lb__nav lb__nav--next" type="button" data-lb-next aria-label="次の写真"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    <div class="lb__info" data-lb-info></div>
+  </div>
+
+  <noscript><p class="noscript">このアルバムの表示には JavaScript を有効にしてください。</p></noscript>
+</div>
+
+<script src="../data/content.js"></script>
+<script src="../data/x-gallery.js"></script>
+<script src="../js/gallery-core.js"></script>
+<script src="album.js"></script>
+</body>
+</html>

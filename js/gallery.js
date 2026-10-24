@@ -2,6 +2,7 @@
    gallery.js — 公演写真ギャラリー（gallery.html）
    ・最初にネタバレ注意を表示（同じタブでは1回だけ）
    ・写真は投稿順に上から並べる（列の高さをそろえながら左上→右下へ）
+   ・一定の枚数（gallery.perPage、初期値 48）ごとにページを分ける（2ページ目・3ページ目…）
    ・キャラクターで絞り込み、タップで拡大（スワイプ / ← → で前後へ）
    ===================================================================== */
 (function () {
@@ -17,9 +18,9 @@
   function lock(on) { root.classList.toggle("is-locked", !!on); }
 
   var toggleEl = $("[data-filter-toggle]"), panelEl = $("[data-panel]"), activeEl = $("[data-active]"), countEl = $("[data-filter-count]");
-  var grid = $("[data-grid]"), statusEl = $("[data-status]"), filterEl = $("[data-filter]"), moreEl = $("[data-more]");
-  var all = [], view = [], active = [], mode = "any", rendered = 0, cols = [], colH = [], nCols = 0;
-  var PAGE = 36, accepted = false, loaded = false;
+  var grid = $("[data-grid]"), statusEl = $("[data-status]"), filterEl = $("[data-filter]"), pagerEl = $("[data-pager]");
+  var all = [], view = [], active = [], mode = "any", cols = [], colH = [], nCols = 0;
+  var PER = Math.max(12, Math.min(200, +cfg.perPage || 48)), page = 1, startHash = 1, accepted = false, loaded = false;
   var CACHE = "mkp26-gallery-cache" + (G.xmode ? "-x-" + G.hashtag : "");
 
   var CAMERA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h3l2-2h6l2 2h3a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Zm8 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/></svg>';
@@ -63,7 +64,7 @@
       var same = loaded && JSON.stringify(sorted) === JSON.stringify(all);
       all = sorted; loaded = true;
       if (!G.demo) S.set(CACHE, JSON.stringify(list));
-      if (accepted && (!same || !rendered)) {
+      if (accepted && (!same || !view.length)) {
         if (viewerOpen) pendingRepaint = true; else paintAll();
       }
     }).catch(function (e) {
@@ -121,7 +122,10 @@
     $$("[data-mode]", modeEl).forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-mode") === mode)); });
   }
   function writeHash() {
-    var h = active.length ? "#tag=" + active.map(encodeURIComponent).join(",") + (mode === "all" && active.length > 1 ? "&all" : "") : "";
+    var parts = [];
+    if (active.length) parts.push("tag=" + active.map(encodeURIComponent).join(",") + (mode === "all" && active.length > 1 ? "&all" : ""));
+    if (page > 1) parts.push("page=" + page);
+    var h = parts.length ? "#" + parts.join("&") : "";
     try { history.replaceState(history.state, "", h || location.pathname + location.search); } catch (e) { /* noop */ }
   }
   // t = "" で全解除、t = "名前" でそのキャラを追加/解除、only = true でそのキャラだけにする
@@ -138,7 +142,7 @@
     });
     paintMode();
     paintActive();
-    writeHash();
+    page = 1;
     paintGrid();
     if (t && window.innerWidth < 700) setPanel(false); // スマホでは、選んだら写真が見えるように閉じる
     if (scroll) {
@@ -165,7 +169,7 @@
   modeEl.addEventListener("click", function (e) {
     var b = e.target.closest("[data-mode]"); if (!b) return;
     mode = b.getAttribute("data-mode");
-    paintMode(); writeHash(); paintGrid();
+    paintMode(); page = 1; paintGrid();
   });
 
   /* ------------------------------------------------------------ masonry (順番を保ったまま、いちばん短い列へ) */
@@ -182,7 +186,6 @@
       var c = document.createElement("div"); c.className = "gal__col"; grid.appendChild(c);
       cols.push(c); colH.push(0);
     }
-    rendered = 0;
   }
   function sizesAttr() { return "calc((min(100vw, 1080px) - 32px) / " + nCols + ")"; }
 
@@ -216,46 +219,83 @@
     }
     return { el: b, h: 1 / ratio };
   }
-  function renderMore() {
-    var end = Math.min(view.length, rendered + PAGE);
-    for (var i = rendered; i < end; i++) {
+  function pageCount() { return Math.max(1, Math.ceil(view.length / PER)); }
+  function pageOf(i) { return Math.floor(i / PER) + 1; }
+  function renderPage() {
+    resetCols();
+    var from = (page - 1) * PER, end = Math.min(view.length, from + PER);
+    for (var i = from; i < end; i++) {
       var t = tile(view[i], i);
       var k = 0;
       for (var j = 1; j < nCols; j++) if (colH[j] < colH[k] - 0.02) k = j;
       cols[k].appendChild(t.el);
       colH[k] += t.h + 0.04;
     }
-    rendered = end;
-    moreEl.hidden = rendered >= view.length;
   }
+  // ページ番号（… で省略）。今のページ・前へ・次へ
+  function paintPager() {
+    var n = pageCount();
+    pagerEl.hidden = n <= 1;
+    if (n <= 1) { pagerEl.innerHTML = ""; return; }
+    var nums = [], last = 0;
+    for (var i = 1; i <= n; i++) {
+      if (i === 1 || i === n || Math.abs(i - page) <= 1 || (page <= 3 && i <= 4) || (page >= n - 2 && i >= n - 3)) {
+        if (last && i - last > 1) nums.push("…");
+        nums.push(i); last = i;
+      }
+    }
+    pagerEl.innerHTML =
+      '<button type="button" class="pager__nav" data-pg="' + (page - 1) + '"' + (page <= 1 ? " disabled" : "") + ' aria-label="前のページ">‹</button>' +
+      nums.map(function (v) {
+        return v === "…" ? '<span class="pager__gap" aria-hidden="true">…</span>'
+          : '<button type="button" class="pager__num" data-pg="' + v + '"' + (v === page ? ' aria-current="page"' : "") + ' aria-label="' + v + 'ページ目">' + v + "</button>";
+      }).join("") +
+      '<button type="button" class="pager__nav" data-pg="' + (page + 1) + '"' + (page >= n ? " disabled" : "") + ' aria-label="次のページ">›</button>';
+  }
+  function setStatus() {
+    var n = pageCount();
+    statusEl.textContent = (active.length ? active.join("・") + " の写真 " : "全 ") + view.length + " 枚" + (n > 1 ? "（" + page + " / " + n + " ページ）" : "");
+  }
+  function gotoPage(n, scroll) {
+    n = Math.max(1, Math.min(pageCount(), n));
+    if (n === page && scroll !== "force") return;
+    page = n;
+    renderPage(); paintPager(); setStatus(); writeHash();
+    if (scroll) {
+      var top = $(".gal").getBoundingClientRect().top + window.scrollY - (parseFloat(getComputedStyle(root).getPropertyValue("--header-h")) || 64);
+      window.scrollTo({ top: Math.max(0, top), behavior: "instant" }); // ページが変わったら、一覧の先頭へすぐ戻る
+    }
+  }
+  pagerEl.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-pg]"); if (!b || b.disabled) return;
+    gotoPage(+b.getAttribute("data-pg"), true);
+  });
   function paintGrid() {
     view = !active.length ? all.slice() : all.filter(function (p) {
       var tg = p.tags || [];
       var hit = function (t) { return tg.indexOf(t) >= 0; };
       return mode === "all" ? active.every(hit) : active.some(hit);
     });
+    page = Math.max(1, Math.min(pageCount(), page));
     resetCols();
     if (!all.length) {
       statusEl.innerHTML = '<span class="gal__empty"><img src="assets/img/emblem-ink.png" alt="">まだ写真はありません。<br>公演のあと、順次公開していきます。</span>';
-      moreEl.hidden = true;
+      pagerEl.hidden = true;
       return;
     }
-    statusEl.textContent = (active.length ? active.join("・") + " の写真 " : "全 ") + view.length + " 枚";
-    renderMore();
+    setStatus();
+    renderPage();
+    paintPager();
+    writeHash();
   }
   function paintAll() { paintFilter(); paintGrid(); }
 
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (en) {
-      if (en[0].isIntersecting && rendered < view.length) renderMore();
-    }, { rootMargin: "1400px 0px" }).observe(moreEl);
-  }
   var rT = 0;
   window.addEventListener("resize", function () {
     clearTimeout(rT);
     rT = setTimeout(function () {
       if (!accepted || !loaded || !all.length) return;
-      if (colCount() !== nCols) { var keep = rendered; paintGrid(); while (rendered < keep && rendered < view.length) renderMore(); }
+      if (colCount() !== nCols) renderPage();
     }, 150);
   });
   grid.addEventListener("click", function (e) {
@@ -293,7 +333,6 @@
     $("[data-v-next]").disabled = vIdx >= view.length - 1;
     // 前後を先読み
     [vIdx - 1, vIdx + 1].forEach(function (k) { if (view[k]) { var im = new Image(); im.src = G.imgUrl(view[k], big); } });
-    if (vIdx >= rendered - 4 && rendered < view.length) renderMore();
   }
   function openViewer(i) {
     vIdx = i; viewerOpen = true; lastFocus = document.activeElement;
@@ -310,6 +349,7 @@
     lock(false);
     setTimeout(function () { if (!viewerOpen) { vEl.hidden = true; vImg.removeAttribute("src"); } }, 250);
     if (!fromPop && history.state && history.state.mkpViewer) { try { history.back(); } catch (e) { /* noop */ } }
+    if (pageOf(vIdx) !== page) { page = pageOf(vIdx); renderPage(); paintPager(); setStatus(); writeHash(); } // 拡大表示で別のページまで進んだら、そのページを開く
     var t = grid.querySelector('[data-i="' + vIdx + '"]');
     if (t) { t.focus({ preventScroll: true }); var r = t.getBoundingClientRect(); if (r.top < 80 || r.bottom > window.innerHeight) t.scrollIntoView({ block: "center" }); }
     else if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
@@ -355,12 +395,16 @@
   });
 
   /* ------------------------------------------------------------ boot */
-  var m = location.hash.match(/^#tag=(.+)$/);
-  if (m) {
-    var parts = m[1].split("&");
-    try { active = parts[0].split(",").map(decodeURIComponent).filter(Boolean); } catch (e) { active = []; }
-    if (parts.indexOf("all") > 0) mode = "all";
-  }
+  (function readHash() {
+    var h = location.hash.replace(/^#/, "");
+    h.split("&").forEach(function (kv) {
+      var i = kv.indexOf("="), k = i < 0 ? kv : kv.slice(0, i), v = i < 0 ? "" : kv.slice(i + 1);
+      if (k === "tag") { try { active = v.split(",").map(decodeURIComponent).filter(Boolean); } catch (e) { active = []; } }
+      else if (k === "all") mode = "all";
+      else if (k === "page") startHash = Math.max(1, parseInt(v, 10) || 1);
+    });
+    page = startHash;
+  })();
   if (G.demo) {
     var note = document.createElement("p");
     note.className = "gal__demo";
