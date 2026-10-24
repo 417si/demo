@@ -19,7 +19,7 @@
   var grid = $("[data-grid]"), statusEl = $("[data-status]"), filterEl = $("[data-filter]"), moreEl = $("[data-more]");
   var all = [], view = [], active = [], mode = "any", rendered = 0, cols = [], colH = [], nCols = 0;
   var PAGE = 36, accepted = false, loaded = false;
-  var CACHE = "mkp26-gallery-cache";
+  var CACHE = "mkp26-gallery-cache" + (G.xmode ? "-x-" + G.hashtag : "");
 
   var CAMERA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h3l2-2h6l2 2h3a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Zm8 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/></svg>';
   var XICON = '<svg class="x" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.77L17.75 3Zm-1.08 16.17h1.7L7.4 4.74H5.58l11.09 14.43Z"/></svg>';
@@ -184,6 +184,17 @@
     img.addEventListener("load", function () { b.classList.add("is-loaded"); });
     img.src = G.imgUrl(p, 800);
     b.appendChild(img);
+    // 一覧でもタグ（キャラ名）が見えるように、写真の左上に小さなタグを並べる（多いときは「+n」）
+    if (p.tags && p.tags.length) {
+      var tg = document.createElement("span");
+      tg.className = "gal__tags";
+      var MAXT = 3;
+      tg.innerHTML = p.tags.slice(0, MAXT).map(function (t) {
+        var col = G.tagColor(t);
+        return '<span class="gal__tag"' + (col ? ' style="--c:' + esc(col) + '"' : "") + "><i></i>" + esc(t) + "</span>";
+      }).join("") + (p.tags.length > MAXT ? '<span class="gal__tag gal__tag--more">+' + (p.tags.length - MAXT) + "</span>" : "");
+      b.appendChild(tg);
+    }
     if (label) {
       var cap = document.createElement("span");
       cap.className = "gal__cap";
@@ -342,6 +353,12 @@
     note.className = "gal__demo";
     note.innerHTML = "デモモードで表示中です（データベース未接続）。見本の写真が表示されています。";
     $(".gal__wrap").insertBefore(note, statusEl);
+  }
+  if (G.xmode) {
+    var credit = document.createElement("p");
+    credit.className = "gal__demo";
+    credit.textContent = "X（旧Twitter）の「#" + G.hashtag + "」の投稿から自動で集めています。写真の著作権は各投稿者に帰属します。掲載の削除をご希望の場合は、公式アカウントまでご連絡ください。";
+    $(".gal__wrap").insertBefore(credit, statusEl);
   }
   load();
   spoiler();

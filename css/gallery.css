@@ -88,6 +88,17 @@
   background: linear-gradient(to top, rgba(11,16,15,.75), transparent);
   opacity: 0; transition: opacity .3s; pointer-events: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
+.gal__tags { /* 一覧のタグ（常に表示） */
+  position: absolute; left: 6px; top: 6px; right: 6px; display: flex; flex-wrap: wrap; gap: 4px; pointer-events: none;
+}
+.gal__tag {
+  display: inline-flex; align-items: center; gap: 4px; max-width: 100%; padding: 2px 8px 2px 6px; border-radius: 999px;
+  font-size: 11px; line-height: 1.4; color: var(--moon); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  background: rgba(11,16,15,.62); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.12);
+}
+.gal__tag i { width: 7px; height: 7px; border-radius: 50%; background: var(--c, var(--lilac)); flex: none; }
+.gal__tag--more { padding-left: 8px; }
 .gal__cap svg { width: 12px; height: 12px; fill: currentColor; flex: none; opacity: .8; }
 @media (hover: hover) {
   .gal__item:hover img { transform: scale(1.035); }

@@ -11,7 +11,20 @@
   var SITE = window.SITE || {};
   var CFG = SITE.gallery || {};
   var API = String(CFG.apiUrl || "").trim();
-  var DEMO = !API;
+  // X(旧Twitter)のハッシュタグから自動生成する版：data/x-gallery.js の設定でスプレッドシートを直接読む
+  var XG = window.X_GALLERY || null;
+  var XMODE = !!(XG && XG.sheetId);
+  var DEMO = !XMODE && !API;
+  // ?hashtag=mkp_2025 で一時的に別年のタグを表示して確認できる（公開前のプレビュー用）
+  function hashtagInUse() {
+    var h = XG && XG.hashtag ? String(XG.hashtag) : "";
+    try {
+      var q = new URLSearchParams(window.location.search).get("hashtag");
+      if (q && /^#?[\w\u3040-\u30ff\u3400-\u9fff\uff10-\uff5a]{1,60}$/.test(q)) h = q;
+    } catch (e) { /* noop */ }
+    return h.replace(/^#/, "");
+  }
+  var HASHTAG = XMODE ? hashtagInUse() : "";
 
   /* ------------------------------------------------------------ small utils */
   function esc(s) {
@@ -37,7 +50,7 @@
   function tagColor(name) {
     var col = "";
     (SITE.characters || []).forEach(function (c) {
-      (c.names || []).forEach(function (n) { if (n.name === name && c.color) col = c.color; });
+      (c.names || []).forEach(function (n) { if ((n.name === name || (n.role || "") + n.name === name) && c.color) col = c.color; });
     });
     return col;
   }
@@ -238,6 +251,71 @@
     remove: function (pw, id) { return post({ action: "delete", password: pw, ownerKey: ownerKey(), id: id }); },
   };
 
+  /* ------------------------------------------------------------ X ハッシュタグ版：スプレッドシートを直接読む（閲覧のみ） */
+  function splitList(v) {
+    return String(v == null ? "" : v).split(",").map(function (t) { return t.trim(); }).filter(Boolean);
+  }
+  function fetchSheetRows() {
+    var url = "https://docs.google.com/spreadsheets/d/" + encodeURIComponent(XG.sheetId) + "/gviz/tq" +
+      "?tqx=out:json&headers=1&sheet=" + encodeURIComponent(XG.sheetName || "シート1");
+    return fetch(url, { cache: "no-store" }).then(function (r) {
+      if (!r.ok) throw new Error("http_" + r.status);
+      return r.text();
+    }).then(function (text) {
+      var m = text.match(/setResponse\(([\s\S]*)\);?\s*$/);
+      if (!m) throw new Error("sheet_parse");
+      // gviz は日付セルを Date(y,m,d,...) という JSON として無効な形で埋め込むことがあるので変換しておく
+      var json = m[1].replace(/Date\(([^)]+)\)/g, function (_, args) {
+        var p = args.split(",").map(Number);
+        return JSON.stringify(new Date(p[0], p[1] || 0, p[2] || 1, p[3] || 0, p[4] || 0, p[5] || 0).toISOString());
+      });
+      var data = JSON.parse(json);
+      if (data.status === "error") throw new Error("sheet_error");
+      var labels = data.table.cols.map(function (c) { return (c.label || "").trim(); });
+      return data.table.rows.map(function (row) {
+        var o = {};
+        (row.c || []).forEach(function (cell, i) { o[labels[i]] = cell && cell.v != null ? cell.v : ""; });
+        return o;
+      });
+    });
+  }
+  function xRowToPhoto(r) {
+    var f = String(r.drive_file_id || "").trim();
+    if (!f) return null;
+    // 除外した行（公式アカウント・イラスト・告知画像など）は表示しない
+    if (String(r.tag_status || "").trim() === "excluded") return null;
+    var handle = String(r.author_handle || "").trim();
+    return {
+      id: String(r.tweet_id || "") + "_" + f,
+      f: f,
+      w: Number(r.width) || 0,
+      h: Number(r.height) || 0,
+      tags: splitList(r.characters).filter(function (t) { return t !== "未分類"; }),
+      credit: handle ? "@" + handle : "",
+      x: String(r.tweet_url || ""),
+      at: String(r.posted_at || ""),
+      _tags: splitList(r.hashtags).map(function (t) { return t.replace(/^#/, "").toLowerCase(); }),
+    };
+  }
+  var xlive = {
+    list: function () {
+      var want = HASHTAG.toLowerCase();
+      return fetchSheetRows().then(function (rows) {
+        var seen = {}, out = [];
+        rows.forEach(function (r) {
+          var p = xRowToPhoto(r);
+          if (!p || (want && p._tags.indexOf(want) < 0) || seen[p.id]) return;
+          seen[p.id] = 1;
+          delete p._tags;
+          out.push(p);
+        });
+        return out;
+      });
+    },
+    readOnly: function () { return Promise.reject(Object.assign(new Error("read_only"), { code: "read_only" })); },
+  };
+  xlive.auth = xlive.manage = xlive.upload = xlive.update = xlive.remove = xlive.readOnly;
+
   /* ------------------------------------------------------------ demo API (この端末の中だけ) */
   var DEMO_KEY = "mkp26-demo-photos";
   var DEMO_SEED = [
@@ -322,6 +400,8 @@
     too_large: "写真のサイズが大きすぎます。",
     not_jpeg: "この画像は投稿できませんでした。",
     owner_key: "この端末の情報が読み取れませんでした。ページを再読み込みしてください。",
+    read_only: "このギャラリーはXの投稿から自動で作られています。",
+    sheet_parse: "写真の一覧を読み込めませんでした。",
     demo_full: "デモモードでは端末の保存容量がいっぱいになりました。いくつか削除してください。",
   };
   function errText(e) {
@@ -333,7 +413,9 @@
 
   window.MKPGallery = {
     demo: DEMO,
-    api: DEMO ? demo : live,
+    xmode: XMODE,
+    hashtag: HASHTAG,
+    api: XMODE ? xlive : DEMO ? demo : live,
     cfg: CFG,
     tags: tagList,
     tagColor: tagColor,
