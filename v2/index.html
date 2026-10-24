@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La Magica＊Prism Ceremony | Magic Kingdom Project 2026</title>
+<meta name="description" content="Magic Kingdom Project 2026 芸術祭公演「La Magica＊Prism Ceremony」。本の表紙をひらくと、公演写真のギャラリーが出てきます。物語・キャラクター・公演情報もこちらから。">
+<meta name="theme-color" content="#dcc9a0">
+<!-- 公開前の確認用：検索結果に出ないようにしています。正式に公開するときは、この1行を消してください -->
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="La Magica＊Prism Ceremony | MKP 2026">
+<meta property="og:description" content="本をひらくと、公演写真のギャラリーが出てきます。">
+<meta property="og:image" content="../assets/img/ogp.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/img/icon-96.png" sizes="96x96" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://lh3.googleusercontent.com">
+<link rel="preload" as="image" href="../assets/img/poster-1200.webp">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Klee+One:wght@400;600&family=Shippori+Mincho+B1:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="book.css">
+</head>
+<body>
+<div class="desk-bg" aria-hidden="true"></div>
+
+<div class="stage">
+  <header class="top">
+    <a class="top__mark" href="./" aria-label="トップ（本の表紙）へ">
+      <img class="top__crest" src="../assets/img/emblem-silver.png" alt="" width="24" height="30">
+      <span class="top__title foil">La Magica＊Prism Ceremony</span>
+    </a>
+    <nav class="top__nav" aria-label="サイト内メニュー">
+      <div class="sns" data-sns></div>
+      <button class="ribbon" type="button" data-toc aria-label="キャラクターで絞り込む（もくじ）"><span>もくじ</span></button>
+    </nav>
+  </header>
+
+  <main class="desk" id="main">
+    <div class="book is-closed no-anim" data-book>
+      <div class="slot slot--l" data-slot-l></div>
+      <div class="slot slot--r" data-slot-r></div>
+      <button class="hit hit--prev" type="button" data-hit-prev aria-label="前のページへ" tabindex="-1"></button>
+      <button class="hit hit--next" type="button" data-hit-next aria-label="次のページへ" tabindex="-1"></button>
+    </div>
+  </main>
+
+  <div class="ctrl is-closed" data-ctrl>
+    <p class="hint" data-hint><b class="foil foil--shine">Tap to open</b><small data-hint-sub>表紙をタップして、本をひらく</small></p>
+    <button class="ctrl__btn" type="button" data-prev aria-label="前のページ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="ctrl__mid">
+      <input class="ctrl__range" type="range" min="-1" max="0" step="1" value="-1" data-range aria-label="ページを選ぶ">
+      <p class="ctrl__label" data-label role="status" aria-live="polite">表紙</p>
+    </div>
+    <button class="ctrl__btn" type="button" data-next aria-label="次のページ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+
+  <nav class="dock" aria-label="コンテンツ">
+    <button class="plate-btn" type="button" data-open="story"><span class="plate-btn__en">Story</span><span class="plate-btn__ja">物語</span></button>
+    <button class="plate-btn" type="button" data-open="characters"><span class="plate-btn__en">Characters</span><span class="plate-btn__ja">キャラクター</span></button>
+    <button class="plate-btn" type="button" data-open="info"><span class="plate-btn__en">Information</span><span class="plate-btn__ja">公演情報</span></button>
+    <a class="plate-btn" href="about.html"><span class="plate-btn__en">About MKP</span><span class="plate-btn__ja">MKPについて</span></a>
+  </nav>
+</div>
+
+<!-- パネル（巻物）：中身は panels.js が data/content.js から作ります -->
+<div class="panel" data-panel="story" role="dialog" aria-modal="true" aria-labelledby="p-story" hidden>
+  <div class="sheet">
+    <button class="sheet__close" type="button" data-close aria-label="閉じる">×</button>
+    <div class="sheet__scroll">
+      <header class="sheet__head"><h2 class="sheet__en foil" id="p-story">Story</h2><p class="sheet__ja">物語</p><img class="foil-rule" src="foil-rule.svg" alt="" width="320" height="24"></header>
+      <div class="story" data-story></div>
+    </div>
+  </div>
+</div>
+<div class="panel" data-panel="characters" role="dialog" aria-modal="true" aria-labelledby="p-chars" hidden>
+  <div class="sheet">
+    <button class="sheet__close" type="button" data-close aria-label="閉じる">×</button>
+    <div class="sheet__scroll">
+      <header class="sheet__head"><h2 class="sheet__en foil" id="p-chars">Characters</h2><p class="sheet__ja">キャラクター紹介</p><img class="foil-rule" src="foil-rule.svg" alt="" width="320" height="24"></header>
+      <div class="chars" data-chars></div>
+    </div>
+  </div>
+</div>
+<div class="panel" data-panel="info" role="dialog" aria-modal="true" aria-labelledby="p-info" hidden>
+  <div class="sheet">
+    <button class="sheet__close" type="button" data-close aria-label="閉じる">×</button>
+    <div class="sheet__scroll">
+      <header class="sheet__head"><h2 class="sheet__en foil" id="p-info">Information</h2><p class="sheet__ja">公演情報</p><img class="foil-rule" src="foil-rule.svg" alt="" width="320" height="24"></header>
+      <div class="info" data-info></div>
+    </div>
+  </div>
+</div>
+
+<!-- 写真の拡大表示 -->
+<div class="lb" data-lb role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
+  <div class="lb__top">
+    <span class="lb__count" data-lb-count></span>
+    <button class="lb__close" type="button" data-lb-close aria-label="閉じる">×</button>
+  </div>
+  <div class="lb__stage" data-lb-stage>
+    <figure class="lb__print" data-lb-print><img data-lb-img alt=""></figure>
+    <div class="lb__spin" aria-hidden="true"></div>
+  </div>
+  <button class="lb__nav lb__nav--prev" type="button" data-lb-prev aria-label="前の写真"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="lb__nav lb__nav--next" type="button" data-lb-next aria-label="次の写真"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  <div class="lb__info" data-lb-info></div>
+</div>
+
+<noscript><p style="position:fixed;inset:auto 0 20px;text-align:center">このサイトの表示には JavaScript を有効にしてください。</p></noscript>
+
+<script src="../data/content.js"></script>
+<script src="../data/x-gallery.js"></script>
+<script src="../js/gallery-core.js"></script>
+<script src="common.js"></script>
+<script src="panels.js"></script>
+<script src="book.js"></script>
+</body>
+</html>
