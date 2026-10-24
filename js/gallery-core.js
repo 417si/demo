@@ -47,6 +47,22 @@
     }
     return t;
   }
+  // キャラのイメージカラー → ボタン・タグ用の CSS 変数（--c=塗り(単色/グラデ) --c1=代表色 --rb=枠 --rt=薄い地色 --fg=塗りの上の文字色）
+  function hex2rgb(h) {
+    h = String(h || "").replace("#", "");
+    if (h.length === 3) h = h.replace(/./g, function (c) { return c + c; });
+    var n = parseInt(h, 16);
+    return isNaN(n) || h.length !== 6 ? null : [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  }
+  function lum(rgb) { return (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]) / 255; }
+  function tagStyle(name) {
+    var cs = ((CFG.colors || {})[name] || []).filter(function (c) { return hex2rgb(c); });
+    if (!cs.length) { var old = tagColor(name); return old ? "--c:" + old : ""; }
+    var rgbs = cs.map(hex2rgb), first = rgbs[0];
+    var avg = rgbs.reduce(function (a, r) { return a + lum(r); }, 0) / rgbs.length;
+    var bg = cs.length > 1 ? "linear-gradient(135deg," + cs.join(",") + ")" : cs[0];
+    return "--c:" + bg + ";--c1:" + cs[0] + ";--rb:rgba(" + first.join(",") + ",.7);--rt:rgba(" + first.join(",") + ",.16);--fg:" + (avg > 0.58 ? "#14201d" : "#ffffff");
+  }
   function tagColor(name) {
     var col = "";
     (SITE.characters || []).forEach(function (c) {
@@ -419,6 +435,7 @@
     cfg: CFG,
     tags: tagList,
     tagColor: tagColor,
+    tagStyle: tagStyle,
     parseX: parseX,
     creditLabel: creditLabel,
     imgUrl: imgUrl,

@@ -5,21 +5,25 @@
 
 /* ---------- chips（キャラクターのタグ）共通 ---------- */
 .chip {
-  --c: var(--lilac);
+  --c: var(--lilac); --rb: rgba(174, 184, 182, .45); --rt: rgba(243, 241, 232, .06); --fg: var(--night);
   display: inline-flex; align-items: center; gap: 7px; flex: none;
   min-height: 38px; padding: 6px 14px 6px 12px; border-radius: 999px; border: 0; cursor: pointer;
   font-size: var(--t-sm); letter-spacing: .04em; line-height: 1.2; white-space: nowrap;
-  background: rgba(243, 241, 232, .06); color: var(--moon);
-  box-shadow: inset 0 0 0 1px rgba(174, 184, 182, .45);
-  transition: background .2s, box-shadow .2s, color .2s, transform .15s;
+  background: var(--rt); color: var(--moon);
+  box-shadow: inset 0 0 0 1px var(--rb);
+  transition: background .2s, box-shadow .2s, color .2s, transform .15s, filter .2s;
   -webkit-tap-highlight-color: transparent;
 }
-.chip i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 1.5px rgba(255,255,255,.25); flex: none; }
+.chip i { width: 11px; height: 11px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 1.5px rgba(255,255,255,.4); flex: none; }
 .chip small { font-size: var(--t-xs); opacity: .65; font-variant-numeric: tabular-nums; }
-.chip:hover { background: rgba(243, 241, 232, .12); }
+.chip:hover { filter: brightness(1.3); }
 .chip:active { transform: scale(.96); }
-.chip[aria-pressed="true"] { background: var(--moon); color: var(--night); box-shadow: inset 0 0 0 1px var(--moon), 0 0 18px -2px rgba(200,180,242,.6); }
+/* 選んだとき: そのキャラのイメージカラーで塗る */
+.chip[aria-pressed="true"] { background: var(--c); color: var(--fg); box-shadow: inset 0 0 0 1px var(--rb), 0 0 18px -2px var(--rb); filter: none; }
+.chip[aria-pressed="true"] i { background: var(--fg); box-shadow: none; opacity: .85; }
 .chip[aria-pressed="true"] small { opacity: .75; }
+.chip .x { font-size: 1.15em; line-height: 1; margin-left: 1px; opacity: .8; }
+.chip--all[aria-pressed="true"] { background: var(--moon); color: var(--night); box-shadow: inset 0 0 0 1px var(--moon), 0 0 18px -2px rgba(200,180,242,.6); }
 .chip--all i { display: none; }
 .chip--sm { min-height: 30px; padding: 3px 11px 3px 9px; font-size: var(--t-xs); }
 
@@ -54,6 +58,26 @@
   scroll-padding-inline: var(--gutter);
 }
 .gal__chips::-webkit-scrollbar { display: none; }
+/* 絞り込みバー: しまってある（開くボタンと、選択中のキャラだけ）／開くと全キャラが折り返して並ぶ */
+.gal__bar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px; max-width: 1080px; margin-inline: auto; padding: 8px var(--gutter-r) 8px var(--gutter); }
+.gal__toggle {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 6px 14px 6px 16px; border: 0; border-radius: 999px; cursor: pointer;
+  background: rgba(243, 241, 232, .08); color: var(--moon); box-shadow: inset 0 0 0 1px rgba(174, 184, 182, .45);
+  font: inherit; font-size: var(--t-sm); letter-spacing: .06em; transition: background .2s, color .2s; -webkit-tap-highlight-color: transparent;
+}
+.gal__toggle small { font-size: var(--t-xs); opacity: .7; font-variant-numeric: tabular-nums; }
+.gal__toggle[aria-expanded="true"] { background: var(--moon); color: var(--night); }
+.gal__chev { width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translate(-2px, -2px); transition: transform .2s; margin-left: 2px; }
+.gal__toggle[aria-expanded="true"] .gal__chev { transform: rotate(225deg) translate(-2px, -2px); }
+.gal__active { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.gal__panel { max-height: min(54vh, 460px); overflow-y: auto; border-top: 1px solid rgba(174, 184, 182, .18); overscroll-behavior: contain; }
+.gal__panel[hidden] { display: none; }
+.gal__panel .gal__chips { flex-wrap: wrap; justify-content: center; overflow: visible; }
+@media (max-width: 699px) {
+  .gal__panel .gal__chips { gap: 6px; padding-top: 10px; padding-bottom: 10px; }
+  .gal__panel .chip { min-height: 32px; padding: 4px 10px 4px 9px; font-size: 12.5px; gap: 6px; }
+  .gal__panel .chip i { width: 10px; height: 10px; }
+}
 @media (min-width: 900px) { .gal__chips { flex-wrap: wrap; justify-content: center; overflow: visible; } }
 
 .gal__wrap { padding-top: 18px; }
@@ -94,10 +118,10 @@
 .gal__tag {
   display: inline-flex; align-items: center; gap: 4px; max-width: 100%; padding: 2px 8px 2px 6px; border-radius: 999px;
   font-size: 11px; line-height: 1.4; color: var(--moon); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  background: rgba(11,16,15,.62); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
-  box-shadow: 0 0 0 1px rgba(255,255,255,.12);
+  background: rgba(11,16,15,.66); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  box-shadow: 0 0 0 1px var(--rb, rgba(255,255,255,.14));
 }
-.gal__tag i { width: 7px; height: 7px; border-radius: 50%; background: var(--c, var(--lilac)); flex: none; }
+.gal__tag i { width: 9px; height: 9px; border-radius: 50%; background: var(--c, var(--lilac)); box-shadow: 0 0 0 1px rgba(255,255,255,.35); flex: none; }
 .gal__tag--more { padding-left: 8px; }
 .gal__cap svg { width: 12px; height: 12px; fill: currentColor; flex: none; opacity: .8; }
 @media (hover: hover) {

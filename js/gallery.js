@@ -16,6 +16,7 @@
   function $$(s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); }
   function lock(on) { root.classList.toggle("is-locked", !!on); }
 
+  var toggleEl = $("[data-filter-toggle]"), panelEl = $("[data-panel]"), activeEl = $("[data-active]"), countEl = $("[data-filter-count]");
   var grid = $("[data-grid]"), statusEl = $("[data-status]"), filterEl = $("[data-filter]"), moreEl = $("[data-more]");
   var all = [], view = [], active = [], mode = "any", rendered = 0, cols = [], colH = [], nCols = 0;
   var PAGE = 36, accepted = false, loaded = false;
@@ -88,12 +89,32 @@
     filterEl.innerHTML =
       '<button type="button" class="chip chip--all" data-f="" aria-pressed="' + (!active.length) + '">すべて<small>' + all.length + "</small></button>" +
       names.map(function (t) {
-        var col = G.tagColor(t);
-        return '<button type="button" class="chip" data-f="' + esc(t) + '" aria-pressed="' + (active.indexOf(t) >= 0) + '"' + (col ? ' style="--c:' + esc(col) + '"' : "") +
+        var st = G.tagStyle(t);
+        return '<button type="button" class="chip" data-f="' + esc(t) + '" aria-pressed="' + (active.indexOf(t) >= 0) + '"' + (st ? ' style="' + esc(st) + '"' : "") +
           "><i></i>" + esc(t) + "<small>" + c[t] + "</small></button>";
       }).join("");
+    countEl.textContent = names.length;
+    paintActive();
     paintMode();
   }
+  // しまってある状態でも、いま何で絞り込んでいるか分かるように、選択中のキャラをバーに出す（タップで外せる）
+  function paintActive() {
+    activeEl.innerHTML = active.map(function (t) {
+      var st = G.tagStyle(t);
+      return '<button type="button" class="chip chip--sm" data-a="' + esc(t) + '" aria-pressed="true" aria-label="' + esc(t) + ' の絞り込みを外す"' + (st ? ' style="' + esc(st) + '"' : "") +
+        "><i></i>" + esc(t) + '<span class="x" aria-hidden="true">×</span></button>';
+    }).join("");
+  }
+  function setPanel(open) {
+    panelEl.hidden = !open;
+    toggleEl.setAttribute("aria-expanded", String(open));
+  }
+  toggleEl.addEventListener("click", function () { setPanel(panelEl.hidden); });
+  activeEl.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-a]"); if (!b) return;
+    setFilter(b.getAttribute("data-a"), false, false);
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !panelEl.hidden && !viewerOpen) setPanel(false); });
   // 2人以上選んだときだけ「いずれか / 全員」を切り替えられる
   function paintMode() {
     modeEl.hidden = active.length < 2;
@@ -116,8 +137,10 @@
       b.setAttribute("aria-pressed", String(f ? active.indexOf(f) >= 0 : !active.length));
     });
     paintMode();
+    paintActive();
     writeHash();
     paintGrid();
+    if (t && window.innerWidth < 700) setPanel(false); // スマホでは、選んだら写真が見えるように閉じる
     if (scroll) {
       var top = $(".gal").getBoundingClientRect().top + window.scrollY - (parseFloat(getComputedStyle(root).getPropertyValue("--header-h")) || 64);
       if (window.scrollY > top) window.scrollTo({ top: top, behavior: "auto" });
@@ -190,8 +213,8 @@
       tg.className = "gal__tags";
       var MAXT = 3;
       tg.innerHTML = p.tags.slice(0, MAXT).map(function (t) {
-        var col = G.tagColor(t);
-        return '<span class="gal__tag"' + (col ? ' style="--c:' + esc(col) + '"' : "") + "><i></i>" + esc(t) + "</span>";
+        var st = G.tagStyle(t);
+        return '<span class="gal__tag"' + (st ? ' style="' + esc(st) + '"' : "") + "><i></i>" + esc(t) + "</span>";
       }).join("") + (p.tags.length > MAXT ? '<span class="gal__tag gal__tag--more">+' + (p.tags.length - MAXT) + "</span>" : "");
       b.appendChild(tg);
     }
@@ -272,8 +295,8 @@
       ? '<a class="credit" href="' + esc(x.url) + '" target="_blank" rel="noopener">' + CAMERA + "<u>" + esc(label) + "</u>" + XICON + "</a>"
       : '<span class="credit">' + CAMERA + esc(label) + "</span>") : "";
     var tags = (p.tags || []).map(function (t) {
-      var col = G.tagColor(t);
-      return '<button type="button" class="chip chip--sm" data-vt="' + esc(t) + '"' + (col ? ' style="--c:' + esc(col) + '"' : "") + "><i></i>" + esc(t) + "</button>";
+      var st = G.tagStyle(t);
+      return '<button type="button" class="chip chip--sm" data-vt="' + esc(t) + '"' + (st ? ' style="' + esc(st) + '"' : "") + "><i></i>" + esc(t) + "</button>";
     }).join("");
     $("[data-v-info]").innerHTML = (tags ? '<div class="viewer__tags">' + tags + "</div>" : "") + credit;
     $("[data-v-prev]").disabled = vIdx <= 0;
