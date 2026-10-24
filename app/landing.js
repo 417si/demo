@@ -14,7 +14,7 @@
   var landing = $("[data-landing]"), bookEl = $("[data-book]"), hintEl = $("[data-hint]"), hintSub = $("[data-hint-sub]");
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   var PW = 420, PH = 568, spread = true, busy = false;
-  var ASSET = "../assets/";
+  var ASSET = "assets/";
   var NOTE = (SITE.book && SITE.book.note != null) ? SITE.book.note : "※公演の写真が出てきます（ネタバレにご注意ください）";
 
   /* ------------------------------------------------------------ サイズ（画面に合わせて本の大きさを決める） */
@@ -44,10 +44,10 @@
     var pg = el("div", "pg pg--" + side + (extra ? " " + extra : ""));
     return pg;
   }
-  function endpaper() { var pg = shell("l", "pg--end"); var im = el("img", "endp-crest"); im.src = ASSET + "img/emblem-silver.png"; im.alt = ""; pg.appendChild(im); return pg; }
+  function endpaper() { var pg = shell("l", "pg--end"); var im = el("img", "endp-crest"); im.src = ASSET + "img/emblem-ink.png"; im.alt = ""; pg.appendChild(im); return pg; }
   function titlePage(side) {
     var pg = shell(side, "pg--title"), body = el("div", "pg__body");
-    body.innerHTML = '<img class="title__crest" src="' + ASSET + 'img/emblem-silver.png" alt="" width="60" height="74">' +
+    body.innerHTML = '<img class="title__crest" src="' + ASSET + 'img/emblem-ink.png" alt="" width="60" height="74">' +
       '<h2 class="title__h foil">Gallery</h2><p class="title__sub">公演写真ギャラリー</p>' +
       '<hr class="rule">' +
       '<p class="title__p">La Magica＊Prism Ceremony<br>Magic Kingdom Project 2026</p>';

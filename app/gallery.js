@@ -78,9 +78,9 @@
     filterBar.hidden = !all.length;
     filterEl.innerHTML =
       '<button type="button" class="fchip" data-f="" aria-pressed="' + (!active.length) + '"><i style="background:linear-gradient(135deg,#bdf2dc,#c8b4f2,#f6c4dd)"></i>すべて<small>' + all.length + "</small></button>" +
-      names.map(function (t) {
+      names.map(function (t, n) {
         var st = G.tagStyle(t);
-        return '<button type="button" class="fchip" data-f="' + esc(t) + '" aria-pressed="' + (active.indexOf(t) >= 0) + '"' + (st ? ' style="' + esc(st) + '"' : "") + "><i></i>" + esc(t) + "<small>" + c[t] + "</small></button>";
+        return '<button type="button" class="fchip" data-f="' + esc(t) + '" aria-pressed="' + (active.indexOf(t) >= 0) + '" style="--i:' + (n + 1) + ";" + esc(st) + '"><i></i>' + esc(t) + "<small>" + c[t] + "</small></button>";
       }).join("");
     countEl.textContent = names.length;
     paintActive(); paintMode();
@@ -95,10 +95,15 @@
     modeBox.hidden = active.length < 2;
     $$("[data-mode]", modeBox).forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-mode") === mode)); });
   }
-  function setPanel(open) { panelEl.hidden = !open; toggleEl.setAttribute("aria-expanded", String(open)); }
-  toggleEl.addEventListener("click", function () { setPanel(panelEl.hidden); });
+  function panelIsOpen() { return panelEl.classList.contains("is-open"); }
+  function setPanel(open) {
+    panelEl.classList.toggle("is-open", open);
+    if (open) panelEl.removeAttribute("inert"); else panelEl.setAttribute("inert", "");
+    toggleEl.setAttribute("aria-expanded", String(open));
+  }
+  toggleEl.addEventListener("click", function () { setPanel(!panelIsOpen()); });
   activeEl.addEventListener("click", function (e) { var b = e.target.closest("[data-a]"); if (b) setFilter(b.getAttribute("data-a"), false); });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !panelEl.hidden && !lbOpen && !(V.panelOpen && V.panelOpen())) setPanel(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && panelIsOpen() && !lbOpen && !(V.panelOpen && V.panelOpen())) setPanel(false); });
   // t = "" で全解除 / "名前" でそのキャラを追加・解除 / only = true でそのキャラだけにする
   function setFilter(t, only) {
     if (!t) active = [];
@@ -131,6 +136,7 @@
   function tile(p, idx) {
     var b = document.createElement("button");
     b.type = "button"; b.className = "tile"; b.setAttribute("data-i", idx);
+    b.style.setProperty("--n", idx % PER); // 一覧を開いたとき、上から順にふわっと出てくる
     var ratio = p.w && p.h ? p.w / p.h : 1.5;
     b.style.aspectRatio = ratio.toFixed(4);
     var label = G.creditLabel(p);
@@ -195,7 +201,7 @@
     page = Math.max(1, Math.min(pageCount(), page));
     resetCols();
     if (!all.length) {
-      statusEl.innerHTML = '<span class="gal__empty"><img src="../assets/img/emblem-ink.png" alt="">まだ写真はありません。<br>公演のあと、順次公開していきます。</span>';
+      statusEl.innerHTML = '<span class="gal__empty"><img src="assets/img/emblem-ink.png" alt="">まだ写真はありません。<br>公演のあと、順次公開していきます。</span>';
       pagerEl.hidden = true;
       return;
     }

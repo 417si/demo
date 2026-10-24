@@ -1,5 +1,8 @@
 # La Magica＊Prism Ceremony — MKP 2026 公演サイト
 
+> **サイトの構成が変わりました**：トップ（`index.html`）は「本の表紙をひらくと公演写真ギャラリーが出てくる」新しいサイトです。
+> 今までの特設サイトは `old/` に残してあります（`/old/`）。下の説明のうち、トップ・About・ギャラリーの部分は旧サイト（`old/`）の話です。
+
 武蔵野美術大学公認サークル Magic Kingdom Project の 2026年度 芸術祭公演サイトです。
 ビルド不要の静的サイト（HTML / CSS / JS）なので、置くだけで公開できます。
 
@@ -20,9 +23,13 @@
 ## フォルダ構成
 
 ```
-index.html            トップ（テーマ映像 → ポスター → ストーリー → キャラ → 公演情報 → グッズ → SNS）
-about.html            About（MKPとは・各班紹介・これまでの公演・メンバー募集）
-gallery.html          公演写真ギャラリー（ネタバレ注意 → キャラで絞り込み → タップで拡大）
+index.html            トップ：本の表紙（ポスター）→ タップでひらくと、公演写真ギャラリー（メニューはハンバーガー）
+about.html            About（MKPとは・各班紹介・これまでの公演・SNS）
+gallery.html          以前のギャラリーのURL → index.html#gallery へ転送するだけ
+app/                  ★ 新しいトップ・About の見た目と動き（site.css / landing.* / gallery.* / panels.js / about.*）
+old/                  旧サイト（index.html / about.html / gallery.html）。画像・css/・js/・data/ はルートのものを共有（<base href="../">）
+edit.html / tagger/   タグ修正ページ・スマホ管理ページ（ルートのまま）
+album/                思い出アルバム風のページ（試作。今は使っていません）
 upload.html           部員用の写真投稿ページ（合言葉で入る。メニューには出ないのでURLを部員に共有）
 gas/Code.gs           写真のデータベース（Google Apps Script に貼り付けて使う）
 js/gallery-core.js    ギャラリーと投稿ページ共通（データベースとの通信・画像の圧縮）

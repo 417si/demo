@@ -1,173 +1,155 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="is-landing">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>La Magica＊Prism Ceremony | Magic Kingdom Project 2026</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="武蔵野美術大学公認サークル Magic Kingdom Project（MKP）2026年度 芸術祭公演「La Magica＊Prism Ceremony」公式サイト。10/23〜25 公演。">
-<meta name="theme-color" content="#17211F">
-<!-- SNSでシェアしたときの表示（公開URLが決まったら og:image / og:url を絶対URLに） -->
+<meta name="description" content="Magic Kingdom Project 2026 芸術祭公演「La Magica＊Prism Ceremony」。本の表紙をひらくと、公演写真のギャラリーが出てきます。">
+<meta name="theme-color" content="#b9b19e">
+<!-- 公開前の確認用：検索結果に出ないようにしています。正式に公開するときは、この1行を消してください -->
+<meta name="robots" content="noindex, nofollow">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="La Magica＊Prism Ceremony">
-<meta property="og:title" content="La Magica＊Prism Ceremony | Magic Kingdom Project 2026">
-<meta property="og:description" content="武蔵野美術大学公認サークル MKP 2026年度 芸術祭公演 公式サイト">
+<meta property="og:title" content="La Magica＊Prism Ceremony | MKP 2026">
+<meta property="og:description" content="本をひらくと、公演写真のギャラリーが出てきます。">
 <meta property="og:image" content="assets/img/ogp.jpg">
-<meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@mkp_mau">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="assets/img/icon-96.png" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Shippori+Mincho+B1:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="css/style.css">
+<link rel="preconnect" href="https://lh3.googleusercontent.com">
+<link rel="preload" as="image" href="assets/img/poster-1200.webp">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Klee+One:wght@400;600&family=Shippori+Mincho+B1:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="app/site.css">
+<link rel="stylesheet" href="app/landing.css">
+<link rel="stylesheet" href="app/gallery.css">
 </head>
 <body>
-<div class="site" data-page="home">
+<div class="desk-bg" aria-hidden="true"></div>
 
-  <a class="skip" href="#story">本文へ移動</a>
-
-  <!-- ===== ヘッダー ===== -->
-  <header class="gh" data-header>
-    <a class="gh__mark" href="#top" aria-label="トップへ戻る">
-      <img class="gh__crest" src="assets/img/emblem-silver.png" alt="" width="26" height="32">
-      <span class="gh__title" data-site-title>La Magica＊Prism Ceremony</span>
+<!-- ============ 最初の画面：本の表紙 ============ -->
+<div class="landing" data-landing>
+  <header class="top">
+    <a class="top__mark" href="./" aria-label="トップ（本の表紙）へ">
+      <img class="top__crest" src="assets/img/emblem-ink.png" alt="" width="24" height="30">
+      <span class="top__title foil">La Magica＊Prism Ceremony</span>
     </a>
-    <nav class="gh__nav" aria-label="メインメニュー">
-      <a href="about.html">About</a>
-      <a href="gallery.html">Gallery</a>
-    </nav>
-    <div class="gh__sns" data-sns="icons"></div>
-    <button class="gh__menu" type="button" aria-expanded="false" aria-controls="drawer" data-menu>
-      <span></span><span></span><span class="sr">メニュー</span>
-    </button>
+    <div class="sns" data-sns></div>
   </header>
 
-  <div class="drawer" id="drawer" hidden data-drawer>
-    <nav aria-label="メニュー">
-      <a href="about.html"><span>About</span><small>MKPについて</small></a>
-      <a href="gallery.html"><span>Gallery</span><small>写真ギャラリー</small></a>
-    </nav>
-    <div class="drawer__sns" data-sns="icons"></div>
-  </div>
+  <main class="desk" id="main">
+    <div class="book is-closed" data-book></div>
+  </main>
 
-  <main id="top">
+  <p class="hint" data-hint><b class="foil">Tap to open</b><small data-hint-sub>表紙をタップして、本をひらく</small></p>
 
-    <!-- ===== メインビジュアル（夜の庭とプリズムの光） ===== -->
-    <section class="hero hero--full" aria-label="メインビジュアル" data-hero>
-      <div class="hero__bg" aria-hidden="true"><img data-poster-bg src="" alt=""></div>
-      <div class="hero__glow" aria-hidden="true"></div>
-      <a class="hero__scroll" href="#story" aria-label="ストーリーへ">Scroll<i></i></a>
-      <canvas class="fx" data-fx="night" aria-hidden="true"></canvas>
-      <div class="hero__inner">
-        <div class="hero__info">
-          <p class="hero__tagline" data-tagline></p>
-          <ul class="hero__dates" data-hero-dates></ul>
-          <button class="hero__whole" type="button" data-zoom>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v2H6v4H4V4Zm10 0h6v6h-2V6h-4V4ZM4 14h2v4h4v2H4v-6Zm14 0h2v6h-6v-2h4v-4Z"/></svg>ポスター全体を見る
+  <nav class="dock" aria-label="コンテンツ">
+    <button class="plate-btn" type="button" data-open="story"><span class="plate-btn__en">Story</span><span class="plate-btn__ja">物語</span></button>
+    <a class="plate-btn" href="about.html"><span class="plate-btn__en">About MKP</span><span class="plate-btn__ja">MKPについて</span></a>
+  </nav>
+</div>
+
+<!-- ============ 本をひらいたあと：ふつうのギャラリーサイト ============ -->
+<div class="site" data-site>
+  <header class="gh" data-gh>
+    <a class="gh__mark" href="#gallery" data-top aria-label="ギャラリーの先頭へ">
+      <img class="gh__crest" src="assets/img/emblem-ink.png" alt="" width="24" height="30">
+      <span class="gh__title foil">La Magica＊Prism Ceremony</span>
+    </a>
+    <button class="gh__menu" type="button" data-menu aria-expanded="false" aria-controls="drawer" aria-label="メニューをひらく"><span></span><span></span><span></span></button>
+  </header>
+
+  <main class="gmain" id="gallery-main">
+    <section class="ghero">
+      <h1 class="ghero__h foil">Gallery</h1>
+      <p class="ghero__ja">公演写真ギャラリー</p>
+      <hr class="rule">
+    </section>
+
+    <section class="gal" aria-label="写真の一覧">
+      <div class="gal__filter" data-filter-bar hidden>
+        <div class="gal__bar">
+          <button type="button" class="gal__toggle" data-filter-toggle aria-expanded="false" aria-controls="gal-panel">
+            <span>キャラで絞り込む</span><small data-filter-count></small><i class="gal__chev" aria-hidden="true"></i>
           </button>
-          <button class="hero__replay" type="button" data-replay hidden>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>テーマ映像をもう一度見る
-          </button>
+          <div class="gal__active" data-active aria-live="polite"></div>
+        </div>
+        <div class="gal__panel" id="gal-panel" data-panel-filter inert>
+          <div class="gal__panelin"><div class="gal__chips" role="group" aria-label="キャラクターで絞り込む" data-filter></div></div>
         </div>
       </div>
-      <div class="hero__bloom" aria-hidden="true"></div>
-    </section>
-
-    <!-- ===== ストーリー（光の中へ） ===== -->
-    <section class="story" id="story" aria-labelledby="story-h">
-      <canvas class="fx fx--sticky" data-fx="light" aria-hidden="true"></canvas>
-      <div class="story__aura" aria-hidden="true"></div>
-
-      <div class="story__inner">
-        <header class="sec-head">
-          <img class="sec-head__spark" src="assets/svg/sparkle.svg" alt="" width="40" height="40">
-          <h2 class="sec-head__en" id="story-h">Story</h2>
-          <p class="sec-head__ja">ものがたり</p>
-        </header>
-        <div class="story__text" data-story></div>
-      </div>
-      <div class="story__band" aria-hidden="true"></div>
-    </section>
-
-    <!-- ===== キャラクター ===== -->
-    <section class="chars" id="characters" aria-labelledby="chars-h">
-      <div class="wrap">
-        <header class="sec-head sec-head--dark">
-          <img class="sec-head__spark" src="assets/svg/sparkle.svg" alt="" width="40" height="40">
-          <h2 class="sec-head__en" id="chars-h">Characters</h2>
-          <p class="sec-head__ja">ガーデンのなかまたち</p>
-        </header>
-        <div class="carousel" data-carousel></div>
-      </div>
-    </section>
-
-    <!-- ===== 公演情報 ===== -->
-    <section class="info parchment" id="information" aria-labelledby="info-h">
-      <div class="wrap">
-        <header class="sec-head">
-          <img class="sec-head__spark" src="assets/svg/sparkle.svg" alt="" width="40" height="40">
-          <h2 class="sec-head__en" id="info-h">Information</h2>
-          <p class="sec-head__ja">公演情報</p>
-          <img class="sec-head__rule" src="assets/svg/rule.svg" alt="" width="360" height="36">
-        </header>
-        <div class="info__grid">
-          <article class="plate" data-schedule></article>
-          <article class="notes" data-notes></article>
+      <div class="gal__wrap">
+        <div class="gal__mode" data-mode-box role="group" aria-label="絞り込みの条件" hidden>
+          <button type="button" data-mode="any">いずれかが写っている</button><button type="button" data-mode="all">全員が写っている</button>
         </div>
-        <div class="news" data-news></div>
-      </div>
-    </section>
-
-    <!-- ===== グッズ ===== -->
-    <section class="goods parchment" id="goods" aria-labelledby="goods-h">
-      <div class="wrap">
-        <header class="sec-head">
-          <img class="sec-head__spark" src="assets/svg/sparkle.svg" alt="" width="40" height="40">
-          <h2 class="sec-head__en" id="goods-h">Goods</h2>
-          <p class="sec-head__ja">グッズ</p>
-          <img class="sec-head__rule" src="assets/svg/rule.svg" alt="" width="360" height="36">
-        </header>
-        <div data-goods></div>
-      </div>
-    </section>
-
-    <!-- ===== 展示（content.js で enabled: true のときだけ表示） ===== -->
-    <section class="exhibit parchment" id="exhibition" aria-labelledby="ex-h" hidden data-exhibition-section>
-      <div class="wrap">
-        <header class="sec-head">
-          <h2 class="sec-head__en" id="ex-h">Exhibition</h2>
-          <p class="sec-head__ja">展示</p>
-          <img class="sec-head__rule" src="assets/svg/rule.svg" alt="" width="360" height="36">
-        </header>
-        <div data-exhibition></div>
-      </div>
-    </section>
-
-    <!-- ===== SNS ===== -->
-    <section class="follow parchment" id="follow" aria-labelledby="follow-h">
-      <div class="wrap">
-        <h2 class="follow__h" id="follow-h">最新情報は SNS で</h2>
-        <p class="follow__lead">キャラクター紹介や公演のお知らせを順次公開しています。</p>
-        <div class="follow__list" data-sns="cards"></div>
-        <a class="follow__about" href="about.html">MKPについて・各班の紹介</a>
+        <p class="gal__status" data-status role="status" aria-live="polite"></p>
+        <div class="gal__grid" data-grid></div>
+        <nav class="gal__pager" data-pager aria-label="ページ" hidden></nav>
       </div>
     </section>
   </main>
 
-  <footer class="gf" data-footer></footer>
-
-  <dialog class="lightbox" data-lightbox aria-label="画像の拡大表示">
-    <button class="lightbox__close" type="button" data-lightbox-close aria-label="閉じる">×</button>
-    <img src="" alt="">
-  </dialog>
-
-  <noscript><p class="noscript">このサイトの表示には JavaScript を有効にしてください。</p></noscript>
+  <footer class="gf">
+    <img class="gf__crest" src="assets/img/emblem-ink.png" alt="" width="40" height="49">
+    <p class="gf__title foil">La Magica＊Prism Ceremony</p>
+    <p class="gf__sub">Magic Kingdom Project 2026</p>
+    <div class="sns" data-sns></div>
+    <p class="gf__note" data-credit></p>
+    <p class="gf__copy" data-copy></p>
+  </footer>
 </div>
 
+<!-- ハンバーガーメニュー -->
+<div class="drawer" id="drawer" data-drawer hidden>
+  <div class="drawer__scrim" data-drawer-close></div>
+  <nav class="drawer__sheet" aria-label="メニュー">
+    <button class="drawer__close" type="button" data-drawer-close aria-label="メニューを閉じる">×</button>
+    <p class="drawer__title foil">Menu</p>
+    <hr class="rule">
+    <ul class="drawer__list">
+      <li><button type="button" data-open="story"><b>Story</b><small>物語</small></button></li>
+      <li><a href="about.html"><b>About MKP</b><small>MKPについて</small></a></li>
+    </ul>
+    <hr class="rule">
+    <div class="sns" data-sns></div>
+    <a class="drawer__back" href="./" data-back>‹ 本の表紙にもどる</a>
+  </nav>
+</div>
+
+<!-- パネル（巻物）：中身は panels.js が data/content.js から作ります -->
+<div class="panel" data-panel="story" role="dialog" aria-modal="true" aria-labelledby="p-story" hidden>
+  <div class="sheet">
+    <button class="sheet__close" type="button" data-close aria-label="閉じる">×</button>
+    <div class="sheet__scroll">
+      <header class="sheet__head"><h2 class="sheet__en foil" id="p-story">Story</h2><p class="sheet__ja">物語</p><hr class="rule"></header>
+      <div class="story" data-story></div>
+    </div>
+  </div>
+</div>
+<!-- 写真の拡大表示 -->
+<div class="lb" data-lb role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
+  <div class="lb__top">
+    <span class="lb__count" data-lb-count></span>
+    <button class="lb__close" type="button" data-lb-close aria-label="閉じる">×</button>
+  </div>
+  <div class="lb__stage" data-lb-stage>
+    <figure class="lb__print" data-lb-print><img data-lb-img alt=""></figure>
+    <div class="lb__spin" aria-hidden="true"></div>
+  </div>
+  <button class="lb__nav lb__nav--prev" type="button" data-lb-prev aria-label="前の写真"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="lb__nav lb__nav--next" type="button" data-lb-next aria-label="次の写真"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  <div class="lb__info" data-lb-info></div>
+</div>
+
+<noscript><p style="position:fixed;inset:auto 0 20px;text-align:center">このサイトの表示には JavaScript を有効にしてください。</p></noscript>
+
 <script src="data/content.js"></script>
-<script src="js/main.js"></script>
+<script src="data/x-gallery.js"></script>
+<script src="js/gallery-core.js"></script>
+<script src="app/common.js"></script>
+<script src="app/panels.js"></script>
+<script src="app/gallery.js"></script>
+<script src="app/landing.js"></script>
 </body>
 </html>

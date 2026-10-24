@@ -73,9 +73,9 @@
     // メニュー：トップでは「About / Gallery」。About・Gallery のページでは、そのページの位置が「Home」に入れ替わる
     var gal = SITE.gallery || {};
     var MENU = {
-      home:    { href: "index.html",   en: "Home",    ja: "トップ" },
-      about:   { href: "about.html",   en: "About",   ja: "MKPについて" },
-      gallery: { href: "gallery.html", en: "Gallery", ja: "写真ギャラリー" },
+      home:    { href: "old/index.html",   en: "Home",    ja: "トップ" },
+      about:   { href: "old/about.html",   en: "About",   ja: "MKPについて" },
+      gallery: { href: "old/gallery.html", en: "Gallery", ja: "写真ギャラリー" },
     };
     var slots = ["about"];
     if (gal.showInMenu) slots.push("gallery");
@@ -109,14 +109,14 @@
 
     var ft = $("[data-footer]");
     if (ft) {
-      var base = page === "home" ? "" : "index.html";
+      var base = "old/index.html";
       ft.innerHTML =
         '<p class="gf__mark"><img src="assets/img/emblem-silver.png" alt="" width="64" height="79"><span>' + esc(SITE.title) + "</span></p>" +
         '<p class="gf__sub">' + esc(SITE.circle) + " " + esc(SITE.year) + "</p>" +
         '<nav class="gf__nav" aria-label="フッターメニュー">' +
         '<a href="' + base + '#story">Story</a><a href="' + base + '#characters">Characters</a>' +
         '<a href="' + base + '#information">Information</a><a href="' + base + '#goods">Goods</a>' +
-        (gal.showInMenu ? '<a href="gallery.html">Gallery</a>' : "") + '<a href="about.html">About</a></nav>' +
+        (gal.showInMenu ? '<a href="old/gallery.html">Gallery</a>' : "") + '<a href="old/about.html">About</a></nav>' +
         '<div class="gf__sns">' + list.map(function (s) {
           return '<a href="' + esc(s.url) + '" target="_blank" rel="noopener" aria-label="' + esc(s.label) + '">' + (ICON[s.type] || "") + "</a>";
         }).join("") + "</div>" +

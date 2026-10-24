@@ -7,7 +7,8 @@
   --desk-0: #b9b19e;
   --vellum-0: #eee8d9;
   --vellum-1: #e3dcc8;
-  --ink: #2f2b22;
+  --black: #16140f;
+  --ink: #26231c;
   --ink-soft: #5d5748;
   --ink-faint: #837c69;
   --line: rgba(47, 43, 34, .18);
@@ -44,13 +45,15 @@ a { color: inherit; }
 }
 
 /* 見出し（クラス名は foil のまま。色は墨色） */
-.foil { color: var(--ink); }
-hr.rule { width: 44px; height: 1px; margin: 14px auto; border: 0; background: var(--silver); opacity: .8; }
+.foil, .top__title { color: var(--black); }
+/* 紋章は、黒に */
+.top__crest, .gh__crest, .gf__crest, .hero__crest, .title__crest, .endp-crest { filter: brightness(0); opacity: .92; }
+hr.rule { width: 44px; height: 1px; margin: 14px auto; border: 0; background: var(--ink); opacity: .35; }
 
 /* ------------------------------------------------------------ 上のバー */
 .top { position: relative; z-index: 6; height: var(--top-h); display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: env(safe-area-inset-top, 0) max(16px, env(safe-area-inset-right, 0)) 0 max(16px, env(safe-area-inset-left, 0)); }
 .top__mark { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; min-width: 0; }
-.top__crest { width: 22px; height: auto; opacity: .9; }
+.top__crest { width: 22px; height: auto; }
 .top__title { font-family: var(--f-display); font-style: italic; font-size: 1.1rem; letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .top__nav { display: flex; align-items: center; gap: 6px; }
 .top__link { font-size: .78rem; letter-spacing: .12em; text-decoration: none; color: var(--ink-soft); padding: 8px 10px; border-radius: 999px; }
