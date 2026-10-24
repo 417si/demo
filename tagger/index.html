@@ -50,6 +50,25 @@ details.all{margin-top:6px}details.all summary{cursor:pointer;color:var(--sub);p
 .notice{background:#3a2a10;border:1px solid #6b4a14;color:#ffd699;border-radius:12px;padding:12px;font-size:13px;margin-bottom:12px}
 input[type=text],input[type=password]{width:100%;background:#0b0e0d;border:1px solid var(--line);color:var(--fg);border-radius:10px;padding:11px;font:inherit}
 label.f{display:block;font-size:13px;color:var(--sub);margin:12px 0 4px}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.ph{position:relative;background:#000;border-radius:8px;overflow:hidden;aspect-ratio:3/4;cursor:pointer;border:2px solid transparent}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph.ok{border-color:var(--acc)}
+.ph .dots{position:absolute;left:0;right:0;bottom:0;display:flex;gap:3px;padding:4px;background:linear-gradient(transparent,#000a);min-height:20px;flex-wrap:wrap}
+.ph .dots i{width:11px;height:11px;border-radius:50%;box-shadow:0 0 0 1.5px #fff9}
+.ph .dots em{font-style:normal;font-size:10px;color:#fff;margin-left:auto}
+.ph .tick{position:absolute;top:4px;right:4px;background:var(--acc);color:#0b1511;border-radius:999px;font-size:11px;font-weight:700;padding:0 6px}
+.fbar{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.fbar select{flex:1;background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit}
+.modal{position:fixed;inset:0;z-index:20;background:#101312;overflow-y:auto;padding:calc(10px + env(safe-area-inset-top)) 14px calc(110px + env(safe-area-inset-bottom))}
+.modal .pic2{background:#000;border-radius:12px;display:flex;justify-content:center}
+.modal .pic2 img{max-width:100%;max-height:46vh;display:block}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.tgrid .chip{padding:10px 9px;font-size:12.5px}
+.chip.on{background:var(--c);color:var(--fg);border-color:var(--rb)}
+.chip.on i{background:var(--fg);box-shadow:none}
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:25;display:flex;gap:8px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:#101312f5;border-top:1px solid var(--line)}
+.mbar .btn{text-align:center;padding:12px 6px}
 .toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#e8efe9;color:#0b1511;padding:9px 16px;border-radius:999px;font-size:13px;z-index:30;box-shadow:0 4px 18px #0008;max-width:90vw}
 </style>
 </head>
@@ -60,7 +79,8 @@ label.f{display:block;font-size:13px;color:var(--sub);margin:12px 0 4px}
 </header>
 <main id="main"><p class="done">読み込み中…</p></main>
 <nav class="tabs" id="tabs">
-  <button data-t="review" class="on"><b>🏷</b>確認</button>
+  <button data-t="fix" class="on"><b>✏️</b>修正</button>
+  <button data-t="review"><b>🏷</b>確認</button>
   <button data-t="act"><b>⚙</b>操作</button>
   <button data-t="status"><b>📊</b>状態</button>
   <button data-t="set"><b>🔑</b>設定</button>
@@ -81,7 +101,7 @@ var LS = (function () { var ok = true; try { localStorage.setItem("_t", "1"); lo
 // 開発用: localhost で開いたときだけ ?bridge=... で窓口の URL を差し替えられる（本番では無効）
 var isLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
 var qBridge = isLocal ? new URLSearchParams(location.search).get("bridge") : null;
-var S = { tab: "review", crops: [], status: {}, jobs: [], skipped: {}, hist: [], busy: false };
+var S = { tab: "fix", photos: [], fsel: "all", fshow: 60, editing: null, crops: [], status: {}, jobs: [], skipped: {}, hist: [], busy: false };
 var $ = function (s) { return document.querySelector(s); };
 function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
 function bridge() { return qBridge || LS.get("bridge", "") || (window.MKP_BRIDGE || ""); }
@@ -107,8 +127,18 @@ function gviz(tab, headers) {
   });
 }
 function rowObj(row) { var o = {}; row._l.forEach(function (l, i) { o[l] = row[i] == null ? "" : row[i]; }); return o; }
+function loadPhotos() {
+  return gviz(XG.sheetName || "mkp_gallery", true).then(function (rs) {
+    var want = String(HASHTAG).toLowerCase();
+    S.photos = rs.map(rowObj).filter(function (p) {
+      return p.drive_file_id && p.tag_status !== "excluded" && String(p.hashtags).toLowerCase().split(",").map(function (x) { return x.trim(); }).indexOf(want) >= 0;
+    }).map(function (p) { return { id: String(p.drive_file_id), tags: String(p.characters || "").split(",").map(function (t) { return t.trim(); }).filter(function (t) { return t && t !== "未分類"; }), ok: p.tag_status === "confirmed", handle: p.author_handle, url: p.tweet_url, at: String(p.posted_at || "") }; })
+      .sort(function (a, b) { return a.at < b.at ? 1 : -1; });
+  }).catch(function () { S.photos = []; S.photosErr = true; });
+}
 function loadAll() {
   return Promise.all([
+    loadPhotos(),
     gviz("crops", true).then(function (rs) { S.crops = rs.map(rowObj).sort(function (a, b) { return a.prio - b.prio; }); }).catch(function () { S.crops = []; S.cropsErr = true; }),
     gviz("status", false).then(function (rs) { var o = {}; rs.forEach(function (r) { if (r[0]) o[r[0]] = r[1]; }); S.status = o; }).catch(function () { S.status = {}; }),
     gviz("jobs", true).then(function (rs) { S.jobs = rs.map(rowObj).reverse().slice(0, 8); }).catch(function () { S.jobs = []; })
@@ -147,16 +177,79 @@ function flush() {
   }).catch(function (e) { flushing = false; if (e.code === "password") toast("合言葉が違います（設定を確認）"); updatePending(); });
 }
 function pending() { var L = myLabels(); return Object.keys(L).filter(function (k) { return !L[k].sent; }).length; }
-function updatePending() { var el = $("#pend"); if (el) el.textContent = pending() ? "未送信 " + pending() + "件" : "送信済み"; }
+function updatePending() { var el = $("#pend"), n = pending() + pendingEdits(); if (el) el.textContent = n ? "未送信 " + n + "件" : "送信済み"; }
 function setLabel(c, label) {
   var L = myLabels(); L[c.id] = { label: label, pred: c.pred || "", score: c.score || "", ts: Math.floor(Date.now() / 1000), sent: false };
-  LS.set("labels", L); S.hist.push(c.id); flush(); paint();
+  LS.set("labels", L); S.hist.push(c.id); flush(); flushEdits(); paint();
 }
 function undo() {
   var id = S.hist.pop(); if (!id) return;
   var L = myLabels(); L[id] = { label: "", pred: "", score: "", ts: Math.floor(Date.now() / 1000), sent: false }; LS.set("labels", L);
   delete S.skipped[id]; S.front = id; flush(); paint();
 }
+
+/* ---------- 写真のタグ修正（端末に保存 → 窓口 → ギャラリーのシートに直接反映） ---------- */
+function myEdits() { return LS.get("photoEdits", {}); }
+var flushingE = false;
+function flushEdits() {
+  if (flushingE || !bridge() || !pass()) return Promise.resolve();
+  var E = myEdits(), ids = Object.keys(E).filter(function (k) { return !E[k].sent; });
+  if (!ids.length) return Promise.resolve();
+  flushingE = true;
+  var batch = ids.slice(0, 30).map(function (id) { return { file_id: id, tags: E[id].tags, ts: E[id].ts }; });
+  return postBridge({ action: "settags", items: batch }).then(function () {
+    var E2 = myEdits(); batch.forEach(function (b) { if (E2[b.file_id] && E2[b.file_id].ts === b.ts) E2[b.file_id].sent = true; }); LS.set("photoEdits", E2);
+    flushingE = false; updatePending(); return flushEdits();
+  }).catch(function (e) { flushingE = false; if (e.code === "password") toast("合言葉が違います（設定を確認）"); else if (e.code === "bad_header" || e.code === "no_main_sheet") toast("窓口がまだ古い版です（再デプロイが必要）"); updatePending(); });
+}
+function pendingEdits() { var E = myEdits(); return Object.keys(E).filter(function (k) { return !E[k].sent; }).length; }
+function view(p) {  // 端末の修正を重ねた、いまの見え方
+  var e = myEdits()[p.id]; return e ? { id: p.id, tags: e.tags, ok: true, handle: p.handle, url: p.url, at: p.at } : p;
+}
+function saveTags(id, tags) {
+  var E = myEdits(); E[id] = { tags: tags.slice(), ts: Math.floor(Date.now() / 1000), sent: false }; LS.set("photoEdits", E); flushEdits();
+}
+
+/* ---------- 画面: 修正（公開ギャラリーの写真のタグを直す） ---------- */
+function photoList() {
+  var all = S.photos.map(view), f = S.fsel;
+  return all.filter(function (p) { return f === "all" ? true : f === "none" ? !p.tags.length : f === "ok" ? p.ok : f === "todo" ? !p.ok : p.tags.indexOf(f) >= 0; });
+}
+function dotsHtml(p) { return p.tags.slice(0, 5).map(function (t) { var st = chipStyle(t), m = st.match(/--c:([^;]+)/); return '<i style="background:' + esc(m ? m[1] : "#888") + '"></i>'; }).join("") + (p.tags.length ? '<em>' + p.tags.length + "</em>" : "<em>タグなし</em>"); }
+function viewFix() {
+  if (S.photosErr || !S.photos.length) return '<div class="notice">ギャラリーの写真を読み込めませんでした。通信を確認して、もう一度。</div><button class="btn" id="reload"><b>もう一度読み込む</b></button>';
+  var list = photoList(), shown = list.slice(0, S.fshow), nOk = S.photos.map(view).filter(function (p) { return p.ok; }).length;
+  var opts = [["all", "すべて"], ["none", "タグなし"], ["todo", "未確認のみ"], ["ok", "修正・確認済みのみ"]].concat(CHARS.map(function (c) { return [c, c]; }));
+  return '<div class="fbar"><select id="fsel">' + opts.map(function (o) { return '<option value="' + esc(o[0]) + '"' + (o[0] === S.fsel ? " selected" : "") + ">" + esc(o[1]) + "</option>"; }).join("") + "</select></div>" +
+    '<p class="sub">' + list.length + " 枚 ・ 確認済み " + nOk + " 枚 ・ <span id=\"pend\"></span><br>写真をタップして、タグを直せます（保存すると、公開ギャラリーに反映されます）</p>" +
+    '<div class="pgrid">' + shown.map(function (p) { return '<div class="ph' + (p.ok ? " ok" : "") + '" data-ph="' + esc(p.id) + '"><img loading="lazy" src="https://lh3.googleusercontent.com/d/' + encodeURIComponent(p.id) + '=w400">' + (p.ok ? '<span class="tick">✓</span>' : "") + '<div class="dots">' + dotsHtml(p) + "</div></div>"; }).join("") + "</div>" +
+    (list.length > shown.length ? '<button class="btn" id="more" style="margin-top:10px"><b>もっと見る（残り ' + (list.length - shown.length) + " 枚）</b></button>" : "");
+}
+function openEditor(id, list) {
+  var p = view(S.photos.filter(function (x) { return x.id === id; })[0]); if (!p) return;
+  S.editing = { id: id, tags: p.tags.slice(), list: list.map(function (x) { return x.id; }) };
+  var m = document.createElement("div"); m.className = "modal"; m.id = "modal";
+  document.body.appendChild(m); paintEditor();
+}
+function paintEditor() {
+  var e = S.editing, m = $("#modal"); if (!e || !m) return;
+  var p = S.photos.filter(function (x) { return x.id === e.id; })[0], idx = e.list.indexOf(e.id);
+  m.innerHTML = '<div class="pic2"><img src="https://lh3.googleusercontent.com/d/' + encodeURIComponent(e.id) + '=w1600"></div>' +
+    '<p class="sub" style="margin:8px 0 0">@' + esc(p.handle) + ' ・ ' + (p.url ? '<a style="color:#9cf" target="_blank" rel="noopener" href="' + esc(p.url) + '">元の投稿</a> ・ ' : "") + (idx + 1) + " / " + e.list.length + "</p>" +
+    '<p class="pred" style="margin-top:8px">写っているキャラをタップ（選ぶと色が付きます）</p><div class="tgrid">' +
+    CHARS.map(function (n) { var on = e.tags.indexOf(n) >= 0, st = chipStyle(n); return '<button class="chip' + (on ? " on" : "") + '" data-n="' + esc(n) + '"' + (st ? ' style="' + esc(st) + '"' : "") + "><i></i><span>" + esc(n) + "</span></button>"; }).join("") + "</div>" +
+    '<div class="mbar"><button class="btn" id="e_close">閉じる</button><button class="btn" id="e_clear">タグなし</button><button class="btn pri" id="e_save">保存して次へ</button></div>';
+  m.querySelectorAll("[data-n]").forEach(function (b) { b.onclick = function () { var n = b.dataset.n, i = e.tags.indexOf(n); if (i >= 0) e.tags.splice(i, 1); else e.tags.push(n); paintEditor(); }; });
+  $("#e_close").onclick = function () { closeEditor(); };
+  $("#e_clear").onclick = function () { e.tags = []; paintEditor(); };
+  $("#e_save").onclick = function () {
+    saveTags(e.id, e.tags);
+    var next = e.list[idx + 1];
+    if (next) { e.id = next; var np = view(S.photos.filter(function (x) { return x.id === next; })[0]); e.tags = np.tags.slice(); $("#modal").scrollTop = 0; paintEditor(); toast("保存しました"); }
+    else { closeEditor(); toast("保存しました（最後の写真）"); }
+  };
+}
+function closeEditor() { var m = $("#modal"); if (m) m.remove(); S.editing = null; paint(); }
 
 /* ---------- 画面: 確認 ---------- */
 function queue() {
@@ -231,7 +324,7 @@ function sendJob(type) {
 function viewStatus() {
   var s = S.status, tg = Number(s.photos) ? Math.round((Number(s.tagged) * 100) / Number(s.photos)) : 0;
   return '<div class="card"><dl class="kv"><dt>対象</dt><dd>#' + esc(s.hashtag || HASHTAG) + "</dd><dt>写真</dt><dd>" + esc(s.photos || "-") + " 枚</dd><dt>タグが付いた写真</dt><dd>" + esc(s.tagged || "-") + " 枚（" + tg + "%）</dd>" +
-    "<dt>人物の切り出し</dt><dd>" + esc(s.crops || "-") + " 件</dd><dt>ラベル済み</dt><dd>" + esc(s.labeled || "-") + " 件</dd><dt>未確認（大きいもの）</dt><dd>" + esc(s.unlabeled || "-") + " 件</dd></dl></div>" +
+    "<dt>確認・修正済みの写真</dt><dd>" + esc(s.confirmed || "0") + " 枚</dd><dt>人物の切り出し</dt><dd>" + esc(s.crops || "-") + " 件</dd><dt>ラベル済み</dt><dd>" + esc(s.labeled || "-") + " 件</dd><dt>未確認（大きいもの）</dt><dd>" + esc(s.unlabeled || "-") + " 件</dd></dl></div>" +
     '<div class="card"><div class="sub">Macからのメッセージ</div><div>' + esc(s.message || "-") + '</div><div class="sub" style="margin-top:6px">最終更新 ' + esc(s.updated || "-") + "</div></div>" +
     '<button class="btn" id="reload"><b>最新の状態を読み込む</b></button>';
 }
@@ -246,12 +339,15 @@ function viewSet() {
 /* ---------- 描画とイベント ---------- */
 function paint() {
   document.querySelectorAll("#tabs button").forEach(function (b) { b.classList.toggle("on", b.dataset.t === S.tab); });
-  var v = S.tab === "review" ? viewReview() : S.tab === "act" ? viewAct() : S.tab === "status" ? viewStatus() : viewSet();
+  var v = S.tab === "fix" ? viewFix() : S.tab === "review" ? viewReview() : S.tab === "act" ? viewAct() : S.tab === "status" ? viewStatus() : viewSet();
   $("#main").innerHTML = v; updatePending();
   var q = queue(), c = q[0];
   document.querySelectorAll("#main [data-l]").forEach(function (b) { b.onclick = function () { if (c) setLabel(c, b.dataset.l); }; });
   document.querySelectorAll("#main [data-job]").forEach(function (b) { b.onclick = function () { if (!S.busy) sendJob(b.dataset.job); }; });
   var el;
+  if ((el = $("#fsel"))) el.onchange = function () { S.fsel = el.value; S.fshow = 60; paint(); };
+  if ((el = $("#more"))) el.onclick = function () { S.fshow += 60; paint(); };
+  document.querySelectorAll("#main [data-ph]").forEach(function (d) { d.onclick = function () { openEditor(d.dataset.ph, photoList()); }; });
   if ((el = $("#skip"))) el.onclick = function () { if (c) { S.skipped[c.id] = 1; S.front = null; paint(); } };
   if ((el = $("#undo"))) el.onclick = undo;
   if ((el = $("#reload"))) el.onclick = function () { loadAll().then(paint); };
@@ -261,7 +357,7 @@ function paint() {
 $("#tabs").onclick = function (e) { var b = e.target.closest("[data-t]"); if (!b) return; S.tab = b.dataset.t; S.front = S.front; paint(); if (S.tab !== "review") loadAll().then(function () { if (S.tab !== "review") paint(); }); };
 setInterval(function () { if (S.tab === "act" || S.tab === "status") loadAll().then(function () { if (S.tab === "act") { var j = $("#jobs"); if (j) j.innerHTML = jobsHtml(); } else if (S.tab === "status") paint(); }); else paintWorker(); }, 8000);
 if (!SHEET) { $("#main").innerHTML = '<div class="notice">設定（data/x-gallery.js）が読み込めませんでした。</div>'; }
-else loadAll().then(function () { S.tab = "review"; paint(); flush(); });
+else loadAll().then(function () { S.tab = "fix"; paint(); flush(); flushEdits(); });
 </script>
 </body>
 </html>
