@@ -207,17 +207,7 @@
     img.addEventListener("load", function () { b.classList.add("is-loaded"); });
     img.src = G.imgUrl(p, 800);
     b.appendChild(img);
-    // 一覧でもタグ（キャラ名）が見えるように、写真の左上に小さなタグを並べる（多いときは「+n」）
-    if (p.tags && p.tags.length) {
-      var tg = document.createElement("span");
-      tg.className = "gal__tags";
-      var MAXT = 3;
-      tg.innerHTML = p.tags.slice(0, MAXT).map(function (t) {
-        var st = G.tagStyle(t);
-        return '<span class="gal__tag"' + (st ? ' style="' + esc(st) + '"' : "") + "><i></i>" + esc(t) + "</span>";
-      }).join("") + (p.tags.length > MAXT ? '<span class="gal__tag gal__tag--more">+' + (p.tags.length - MAXT) + "</span>" : "");
-      b.appendChild(tg);
-    }
+    // 一覧ではキャラのタグは見せない（写真を拡大したときだけ表示する）
     if (label) {
       var cap = document.createElement("span");
       cap.className = "gal__cap";
