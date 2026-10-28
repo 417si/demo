@@ -157,6 +157,10 @@ html.is-gallery body { overflow-y: auto; }
 .lb__credit u { text-underline-offset: 4px; text-decoration-color: rgba(243, 234, 212, .45); }
 
 @media (max-width: 560px) {
+  /* スマホでは、キャラの絞り込みを、1行に1人ずつ、縦にそろえて並べる */
+  .gal__chips { display: grid; grid-template-columns: 1fr; gap: 6px; justify-content: stretch; }
+  .gal__panel .fchip { width: 100%; justify-content: flex-start; min-height: 40px; }
+  .gal__panel .fchip small { margin-left: auto; }
   .gal__pager { gap: 4px; flex-wrap: nowrap; }
   .pager__num, .pager__nav { min-width: 36px; height: 38px; padding: 0 6px; font-size: 1rem; }
   .pager__gap { padding: 0; }

@@ -22,7 +22,9 @@ html.is-landing .site { display: none; }
 .slot--l { left: 0; } .slot--r { left: var(--pw); }
 .book.single .slot--r { left: 0; }
 .book.single .slot--l { display: none; }
-.book::before { content: ""; position: absolute; left: 4%; right: 4%; bottom: -14px; height: 30px; border-radius: 50%; background: rgba(24, 21, 14, .5); filter: blur(16px); z-index: -1; }
+.book::before { content: ""; position: absolute; left: 4%; right: 4%; bottom: -14px; height: 30px; border-radius: 50%; background: rgba(24, 21, 14, .5); filter: blur(16px); z-index: -1; transition: left var(--turn) cubic-bezier(.5, .05, .2, 1); }
+/* 表紙がとじているときは、影も表紙の下だけ（本は見開きの幅なので、そのままだと横に伸びて見える） */
+.book.is-closed:not(.single)::before { left: 53%; right: 3%; }
 .hit { position: absolute; inset: 0; z-index: 9; border: 0; background: none; cursor: pointer; }
 .book:not(.is-closed) .hit { display: none; }
 

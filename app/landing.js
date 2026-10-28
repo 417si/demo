@@ -80,7 +80,7 @@
     cover.addEventListener("click", openBook);
     landing.classList.remove("is-opening", "is-leaving");
     hintEl.classList.remove("is-off");
-    hintSub.innerHTML = esc("表紙をタップして、本をひらく") + (NOTE ? "<br>" + esc(NOTE) : "");
+    hintSub.innerHTML = NOTE ? esc(NOTE) : "";
     setTimeout(function () { bookEl.classList.remove("no-anim"); }, 120);
     busy = false; leaf = null;
   }
